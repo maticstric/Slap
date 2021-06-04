@@ -29,6 +29,8 @@ public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandle
 
         background.position = _centerPosition;
         handle.position = _centerPosition;
+
+        print("here");
     }
 
     public abstract void OnDrag(PointerEventData eventData);
