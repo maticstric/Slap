@@ -6,13 +6,14 @@ public class MainMenuManager : MonoBehaviour {
     [SerializeField] private TMP_InputField ipInputField;
 
     public void HostLobby() {
-        MyNetworkManager.Instance.StartHost();
+        MyNetworkManager.singleton.StartHost();
     }
 
     public void JoinLobby() {
         string ip = ipInputField.text;
 
-        MyNetworkManager.Instance.networkAddress = ip;
-        MyNetworkManager.Instance.StartClient();
+        MyNetworkManager.singleton.networkAddress = ip;
+
+        MyNetworkManager.singleton.StartClient();
     }
 }
