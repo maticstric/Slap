@@ -27,6 +27,7 @@ public class LobbyManager : MonoBehaviour {
 
     [Server]
     public bool AllPlayersReady() {
+        print(NetworkServer.connections.Values.Count);
         foreach (NetworkConnection conn in NetworkServer.connections.Values) {
             LobbyPlayer lobbyPlayer = conn.identity.GetComponent<LobbyPlayer>();
 

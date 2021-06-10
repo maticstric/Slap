@@ -48,6 +48,12 @@ public class LobbyPlayer : NetworkBehaviour {
     [Command]
     public void CmdSetIsReady(bool isReady) {
         IsReady = isReady;
+
+        if (_lobbyManager.AllPlayersReady()) {
+            _lobbyManager.SetStartButtonActive(true);
+        } else {
+            _lobbyManager.SetStartButtonActive(false);
+        }
     }
 
     private void OnUsernameChanged(string oldValue, string newValue) {
@@ -56,13 +62,5 @@ public class LobbyPlayer : NetworkBehaviour {
 
     private void OnIsReadyChanged(bool oldValue, bool newValue) {
         ReadyText.text = newValue ? READY_STRING : NOT_READY_STRING;
-
-        if (isServer) {
-            if (_lobbyManager.AllPlayersReady()) {
-                _lobbyManager.SetStartButtonActive(true);
-            } else {
-                _lobbyManager.SetStartButtonActive(false);
-            }
-        }
     }
 }
