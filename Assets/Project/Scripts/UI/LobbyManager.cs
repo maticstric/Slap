@@ -22,12 +22,11 @@ public class LobbyManager : MonoBehaviour {
 
     [Server]
     public void StartGame() {
-        MyNetworkManager.singleton.ServerChangeScene(GameManager.GAME_SCENE_NAME);
+        MyNetworkManager.singleton.ServerChangeScene(GameManager.LEVEL01_SCENE_NAME);
     }
 
     [Server]
     public bool AllPlayersReady() {
-        print(NetworkServer.connections.Values.Count);
         foreach (NetworkConnection conn in NetworkServer.connections.Values) {
             LobbyPlayer lobbyPlayer = conn.identity.GetComponent<LobbyPlayer>();
 

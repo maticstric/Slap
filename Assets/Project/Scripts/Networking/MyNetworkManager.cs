@@ -21,9 +21,9 @@ public class MyNetworkManager : NetworkManager {
         CancellationTokenSource cts = new CancellationTokenSource(10000);
         NatDevice device = await discoverer.DiscoverDeviceAsync(PortMapper.Upnp, cts);
 
-        print(await device.GetExternalIPAsync());
-
         await device.CreatePortMapAsync(new Mapping(Protocol.Udp, _UPnPPort, _UPnPPort, _UPnPDescription));
+
+        base.Start();
     }
 
     public override void OnServerReady(NetworkConnection conn) {
@@ -31,8 +31,10 @@ public class MyNetworkManager : NetworkManager {
             GameObject lobbyPlayerObject = Instantiate(lobbyPlayerPrefab);
 
             NetworkServer.AddPlayerForConnection(conn, lobbyPlayerObject);
-        } else if (SceneManager.GetActiveScene().name == GameManager.GAME_SCENE_NAME) {
-            GameObject gamePlayerObject = Instantiate(gamePlayerPrefab);
+        } else if (SceneManager.GetActiveScene().name == GameManager.LEVEL01_SCENE_NAME) {
+            Transform startPos = GetStartPosition();
+
+            GameObject gamePlayerObject = Instantiate(gamePlayerPrefab, startPos.position, startPos.rotation);
 
             NetworkServer.AddPlayerForConnection(conn, gamePlayerObject);
         }

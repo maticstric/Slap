@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour {
 
     public const string MAIN_MENU_SCENE_NAME = "MainMenu";
     public const string LOBBY_SCENE_NAME = "Lobby";
-    public const string GAME_SCENE_NAME = "Game";
+    public const string LEVEL01_SCENE_NAME = "Level01";
 
     private void Awake() {
         if (Instance == null) {
