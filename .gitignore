@@ -134,4 +134,9 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Hello this comment is useless
+# tags files
+tags
+tags.lock
+tags.temp
+*.swp
+*.tmp
