@@ -10,11 +10,21 @@ public class PlayerMovement : NetworkBehaviour {
 
     private Joystick _movementJoystick;
     private Vector3 _movementDirection;
-    private Rigidbody _modelRigidbody;
+    private Rigidbody _rigidbody;
+    private CameraFollow _cameraFollow;
+    private Vector3 _initialTransformForward;
 
     private void Awake() {
         _movementJoystick = GameObject.Find("MovementJoystick").GetComponent<Joystick>();
-        _modelRigidbody = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
+        _cameraFollow = Camera.main.GetComponent<CameraFollow>();
+        _initialTransformForward = transform.forward;
+    }
+
+    private void Start() {
+        if (isLocalPlayer) {
+            _cameraFollow.Follow(transform);
+        }
     }
 
     private void Update() {
@@ -34,14 +44,15 @@ public class PlayerMovement : NetworkBehaviour {
     private void Move() {
         if (_movementDirection == Vector3.zero) return;
 
-        print(transform.position + _movementDirection * movementSpeed * Time.fixedDeltaTime);
-
-        _modelRigidbody.MovePosition(model.transform.position + _movementDirection * movementSpeed * Time.fixedDeltaTime);
+        _rigidbody.MovePosition(model.transform.position + transform.forward * movementSpeed * Time.fixedDeltaTime);
     }
 
     private void Rotate() {
-        float rotation = Mathf.Atan2(_movementDirection.x, _movementDirection.z) * Mathf.Rad2Deg;
+        if (_movementDirection == Vector3.zero) return;
 
-        transform.localEulerAngles = new Vector3(0, rotation, 0);
+        float rotation = Mathf.Atan2(_movementDirection.x, _movementDirection.z) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, rotation, 0) * Quaternion.LookRotation(_initialTransformForward, Vector3.up);
+
+        //transform.localEulerAngles = new Vector3(0, rotation, 0);
     }
 }
