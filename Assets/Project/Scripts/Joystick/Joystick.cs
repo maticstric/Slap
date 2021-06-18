@@ -9,6 +9,7 @@ public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     [Header("Stats")]
     [SerializeField] protected float size = 100;
+    [SerializeField] protected bool rightSide = true; // false = on left side
 
     protected Vector2 _centerPosition;
     protected Vector2 _pointerCurrentPosition;
@@ -43,7 +44,13 @@ public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandle
         background.sizeDelta = new Vector2(size, size);
         handle.sizeDelta = new Vector2(size * 0.5f, size * 0.5f); // Handle is 50% of background
 
-        background.anchoredPosition = new Vector3(size * 0.75f, size * 0.75f, 0); // Good position for joystick
+        // Good position for joystick based on which side its on
+        if (rightSide) {
+            background.anchoredPosition = new Vector3(size * 0.75f, size * 0.75f, 0); 
+        } else {
+            background.anchoredPosition = new Vector3(-size * 0.75f, size * 0.75f, 0);
+        }
+
         handle.anchoredPosition = new Vector3(0, 0, 0); // Center handle
     }
 }
