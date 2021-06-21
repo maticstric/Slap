@@ -7,6 +7,7 @@ public class PlayerMovement : NetworkBehaviour {
 
     [Header("Object")]
     [SerializeField] private GameObject model;
+    [SerializeField] private Animator animator;
 
     private Joystick _movementJoystick;
     private Vector3 _movementDirection;
@@ -42,7 +43,13 @@ public class PlayerMovement : NetworkBehaviour {
     }
 
     private void Move() {
-        if (_movementDirection == Vector3.zero) return;
+        if (_movementDirection == Vector3.zero) {
+            animator.SetBool("IsRunning", false);
+
+            return;
+        }
+
+        animator.SetBool("IsRunning", true);
 
         _rigidbody.MovePosition(model.transform.position + transform.forward * movementSpeed * Time.fixedDeltaTime);
     }

@@ -134,6 +134,7 @@ MonoBehaviour:
   syncInterval: 0.1
   movementSpeed: 7
   model: {fileID: 4451128943638469711}
+  animator: {fileID: 6822815572031853719}
 --- !u!114 &8186651959047697935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,6 +221,25 @@ CapsuleCollider:
   m_Height: 2.7958522
   m_Direction: 1
   m_Center: {x: -0.028702736, y: 1.3160198, z: -0.08182788}
+--- !u!95 &6822815572031853719
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4451128943638469711}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2416db9da5a24443bb3c9c84d37d3269, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &3532229349783298334
 PrefabInstance:
   m_ObjectHideFlags: 0
