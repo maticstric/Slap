@@ -52,7 +52,5 @@ public class PlayerMovement : NetworkBehaviour {
 
         float rotation = Mathf.Atan2(_movementDirection.x, _movementDirection.z) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, rotation, 0) * Quaternion.LookRotation(_initialTransformForward, Vector3.up);
-
-        //transform.localEulerAngles = new Vector3(0, rotation, 0);
     }
 }
