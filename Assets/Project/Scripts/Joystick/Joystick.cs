@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler {
     [Header("Objects")]
@@ -20,11 +21,17 @@ public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandle
     public float Horizontal => _direction.x;
     public float Vertical => _direction.y;
 
+    public UnityEvent OnPointerUpEvent;
+    public UnityEvent OnPointerDownEvent;
+
     private void Start() {
+        OnPointerUpEvent = new UnityEvent();
+        OnPointerDownEvent = new UnityEvent();
+
         ResetJoystick();
     }
 
-    public void OnPointerDown(PointerEventData eventData) {
+    public virtual void OnPointerDown(PointerEventData eventData) {
         _pointerCurrentPosition = eventData.position;
         _centerPosition = eventData.position;
 
@@ -34,13 +41,17 @@ public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandle
 
     public abstract void OnDrag(PointerEventData eventData);
 
-    public void OnPointerUp(PointerEventData eventData) {
+    public virtual void OnPointerUp(PointerEventData eventData) {
+        OnPointerUpEvent.Invoke();
+
         ResetJoystick();
 
         _direction = Vector2.zero;
     }
 
     private void ResetJoystick() {
+        OnPointerDownEvent.Invoke();
+
         background.sizeDelta = new Vector2(size, size);
         handle.sizeDelta = new Vector2(size * 0.5f, size * 0.5f); // Handle is 50% of background
 

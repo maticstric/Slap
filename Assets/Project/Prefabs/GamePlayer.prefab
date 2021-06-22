@@ -150,6 +150,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   slapMeshFilter: {fileID: 6323072433449512144}
+  animator: {fileID: 6822815572031853719}
   slapRadius: 6
   slapAngleSize: 100
   slapUINumOfRays: 200

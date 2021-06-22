@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class PlayerSlap : NetworkBehaviour {
     [Header("Objects")]
     [SerializeField] private MeshFilter slapMeshFilter;
+    [SerializeField] private Animator animator;
 
     [Header("Stats")]
     [SerializeField] private float slapRadius;
@@ -13,30 +14,40 @@ public class PlayerSlap : NetworkBehaviour {
 
     private Joystick _slapJoystick;
     private Vector3 _slapDirection;
+
     private float _initialRotationForward;
+
     private Mesh _slapMesh;
 
     private void Awake() {
         _slapJoystick = GameObject.Find("SlapJoystick").GetComponent<Joystick>();
         _initialRotationForward = Mathf.Atan2(transform.forward.x, transform.forward.z) * Mathf.Rad2Deg;
-    }
 
-    private void Start() {
         _slapMesh = new Mesh();
         slapMeshFilter.mesh = _slapMesh;
+
+        _slapJoystick.OnPointerUpEvent.AddListener(Slap);
     }
 
     private void Update() {
         if (isLocalPlayer) {
             UpdateSlapDirection();
 
-            // Only draw slap UI when using joystick
-            if (_slapJoystick.Direction != Vector2.zero) {
+            // Only draw slap UI when moving joystick
+            if (_slapDirection != Vector3.zero) {
+                animator.SetBool("IsCharging", true);
+
                 DrawSlapUI();
             } else {
+                animator.SetBool("IsCharging", false);
+
                 _slapMesh.Clear();
             }
         }
+    }
+
+    private void Slap() {
+        animator.Play("SphereGuy_Slap");
     }
 
     private void UpdateSlapDirection() {

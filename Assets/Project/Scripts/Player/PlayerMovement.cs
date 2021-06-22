@@ -32,13 +32,17 @@ public class PlayerMovement : NetworkBehaviour {
         if (isLocalPlayer) {
             _movementDirection = new Vector3(_movementJoystick.Horizontal, 0, _movementJoystick.Vertical).normalized;
 
-            Rotate();
+            if (!animator.GetBool("IsCharging")) {
+                Rotate();
+            }
         }
     }
 
     private void FixedUpdate() {
         if (isLocalPlayer) {
-            Move();
+            if (!animator.GetBool("IsCharging")) {
+                Move();
+            }
         }
     }
 
