@@ -21,8 +21,8 @@ public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandle
     public float Horizontal => _direction.x;
     public float Vertical => _direction.y;
 
-    public UnityEvent OnPointerUpEvent;
-    public UnityEvent OnPointerDownEvent;
+    [HideInInspector] public UnityEvent OnPointerUpEvent;
+    [HideInInspector] public UnityEvent OnPointerDownEvent;
 
     private void Start() {
         OnPointerUpEvent = new UnityEvent();
