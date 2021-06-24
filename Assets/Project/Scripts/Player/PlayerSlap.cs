@@ -7,6 +7,9 @@ public class PlayerSlap : NetworkBehaviour {
     [SerializeField] private MeshFilter slapMeshFilter;
     [SerializeField] private Animator animator;
 
+    [Header("Layer Masks")]
+    [SerializeField] private LayerMask objects;
+
     [Header("Stats")]
     [SerializeField] private float slapRadius;
     [SerializeField] private float slapAngleSize;
@@ -25,8 +28,14 @@ public class PlayerSlap : NetworkBehaviour {
 
         _slapMesh = new Mesh();
         slapMeshFilter.mesh = _slapMesh;
+    }
 
-        _slapJoystick.OnPointerUpEvent.AddListener(Slap);
+    public override void OnStartClient() {
+        if (isLocalPlayer) {
+            _slapJoystick.OnPointerUpEvent.AddListener(Slap);
+        }
+
+        base.OnStartClient();
     }
 
     private void Update() {
@@ -65,7 +74,7 @@ public class PlayerSlap : NetworkBehaviour {
 
             Vector3 direction = new Vector3(Mathf.Sin(angle), 0, Mathf.Cos(angle));
 
-            Vector3 hitPoint = GetRaycastHitPoint(direction);
+            Vector3 hitPoint = GetRaycastHitPoint(direction, objects);
             hitPoints.Add(hitPoint);
         }
 
@@ -93,10 +102,10 @@ public class PlayerSlap : NetworkBehaviour {
         _slapMesh.RecalculateNormals();
     }
 
-    private Vector3 GetRaycastHitPoint(Vector3 direction) {
+    private Vector3 GetRaycastHitPoint(Vector3 direction, LayerMask layerMask) {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, direction, out hit, slapRadius)) {
+        if (Physics.Raycast(transform.position, direction, out hit, slapRadius, layerMask)) {
             return hit.point;
         } else {
             return transform.position + direction * slapRadius;
