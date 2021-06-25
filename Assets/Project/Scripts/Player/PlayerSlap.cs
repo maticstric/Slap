@@ -1,6 +1,7 @@
 using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
+using System.Linq;
 
 public class PlayerSlap : NetworkBehaviour {
     [Header("Objects")]
@@ -8,13 +9,15 @@ public class PlayerSlap : NetworkBehaviour {
     [SerializeField] private Animator animator;
 
     [Header("Layer Masks")]
-    [SerializeField] private LayerMask objects;
+    [SerializeField] private LayerMask objectsLayerMask;
+    [SerializeField] private LayerMask playersLayerMask;
 
     [Header("Stats")]
     [SerializeField] private float slapRadius;
     [SerializeField] private float slapAngleSize;
     [SerializeField] private int slapUINumOfRays;
 
+    private Rigidbody _rigidbody;
     private Joystick _slapJoystick;
     private Vector3 _slapDirection;
 
@@ -23,6 +26,7 @@ public class PlayerSlap : NetworkBehaviour {
     private Mesh _slapMesh;
 
     private void Awake() {
+        _rigidbody = GetComponent<Rigidbody>();
         _slapJoystick = GameObject.Find("SlapJoystick").GetComponent<Joystick>();
         _initialRotationForward = Mathf.Atan2(transform.forward.x, transform.forward.z) * Mathf.Rad2Deg;
 
@@ -57,29 +61,51 @@ public class PlayerSlap : NetworkBehaviour {
 
     private void Slap() {
         animator.Play("SphereGuy_Slap");
-    }
 
-    private void UpdateSlapDirection() {
-        _slapDirection = new Vector3(_slapJoystick.Horizontal, 0, _slapJoystick.Vertical).normalized;
-        _slapDirection = Quaternion.Euler(0, _initialRotationForward, 0) * _slapDirection;
-    }
+        List<RaycastHit> slapHits = GetSlapHits(playersLayerMask);
+        List<GameObject> playerHits = new List<GameObject>();
 
-    private void DrawSlapUI() {
-        float stepAngleSize = slapAngleSize / (slapUINumOfRays + 1);
-        List<Vector3> hitPoints = new List<Vector3>();
-
-        for (int i = 0; i < slapUINumOfRays + 2; i++) { // + 2 because two rays are assumed on each side of the slapAngleSize
-            float slapAngle = Mathf.Atan2(_slapDirection.x, _slapDirection.z) * Mathf.Rad2Deg;
-            float angle = (slapAngle - slapAngleSize / 2 + stepAngleSize * i) * Mathf.Deg2Rad;
-
-            Vector3 direction = new Vector3(Mathf.Sin(angle), 0, Mathf.Cos(angle));
-
-            Vector3 hitPoint = GetRaycastHitPoint(direction, objects);
-            hitPoints.Add(hitPoint);
+        foreach (RaycastHit hit in slapHits) {
+            if (hit.collider) {
+                playerHits.Add(hit.collider.gameObject);
+            }
         }
 
-        // Based on the points, set up the verticies and triangles to draw the mesh
+        playerHits = playerHits.Distinct().ToList();
 
+        foreach (GameObject playerHit in playerHits) {
+            // The collider is on the model, which is a child of the actual parent object with NetworkIdentity
+            GameObject playerObject = playerHit.transform.parent.gameObject;
+
+            //CmdSlap(playerObject);
+        }
+    }
+
+    //[Command]
+    //private void CmdSlap(GameObject target) {
+    //    //NetworkIdentity targetIdentity = target.GetComponent<NetworkIdentity>();
+
+    //    //TargetSlap(targetIdentity.connectionToClient);
+    //    target.GetComponent<Rigidbody>().AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
+    //}
+
+    //[TargetRpc]
+    //private void TargetSlap(NetworkConnection target) {
+    //    _rigidbody.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
+    //}
+
+    private void DrawSlapUI() {
+        List<RaycastHit> slapHits = GetSlapHits(objectsLayerMask);
+        List<Vector3> hitPoints = new List<Vector3>();
+
+        foreach (RaycastHit hit in slapHits) {
+            hitPoints.Add(hit.point);
+        }
+
+        DrawSlapMesh(hitPoints);
+    }
+
+    private void DrawSlapMesh(List<Vector3> hitPoints) {
         int vertexCount = hitPoints.Count + 1; // + 1 for origin vertex at player position
         Vector3[] verticies = new Vector3[vertexCount];
         int[] triangles = new int[(vertexCount - 2) * 3];
@@ -102,13 +128,31 @@ public class PlayerSlap : NetworkBehaviour {
         _slapMesh.RecalculateNormals();
     }
 
-    private Vector3 GetRaycastHitPoint(Vector3 direction, LayerMask layerMask) {
-        RaycastHit hit;
+    private List<RaycastHit> GetSlapHits(LayerMask layerMask) {
+        float stepAngleSize = slapAngleSize / (slapUINumOfRays + 1);
+        List<RaycastHit> hits = new List<RaycastHit>();
 
-        if (Physics.Raycast(transform.position, direction, out hit, slapRadius, layerMask)) {
-            return hit.point;
-        } else {
-            return transform.position + direction * slapRadius;
+        for (int i = 0; i < slapUINumOfRays + 2; i++) { // + 2 because two rays are assumed on each side of the slapAngleSize
+            float slapAngle = Mathf.Atan2(_slapDirection.x, _slapDirection.z) * Mathf.Rad2Deg;
+            float angle = (slapAngle - slapAngleSize / 2 + stepAngleSize * i) * Mathf.Deg2Rad;
+
+            Vector3 direction = new Vector3(Mathf.Sin(angle), 0, Mathf.Cos(angle));
+
+            RaycastHit hit;
+
+            // If ray doesn't hit anything, just set the point of the hit to the max. Makes slap visualization easier
+            if (!Physics.Raycast(transform.position, direction, out hit, slapRadius, layerMask)) {
+                hit.point = transform.position + direction * slapRadius; 
+            }
+
+            hits.Add(hit);
         }
+
+        return hits;
+    }
+
+    private void UpdateSlapDirection() {
+        _slapDirection = new Vector3(_slapJoystick.Horizontal, 0, _slapJoystick.Vertical).normalized;
+        _slapDirection = Quaternion.Euler(0, _initialRotationForward, 0) * _slapDirection;
     }
 }
