@@ -1,14 +1,17 @@
 fileFormatVersion: 2
-guid: 8adb4d46f81de43e5b9633d150af9cd1
+guid: aceb719525794453691d21943f59ec34
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: -6855486883302284444
+    second: SphereFloatie|SphereFloatieAction
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material.001
-    second: {fileID: 2100000, guid: e02b9cb7735c0432aa17282db7c7ff27, type: 2}
+    second: {fileID: 2100000, guid: b0e47e5a0f8c3439da2bb11e0039fe8c, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
