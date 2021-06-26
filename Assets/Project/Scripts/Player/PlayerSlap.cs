@@ -77,22 +77,25 @@ public class PlayerSlap : NetworkBehaviour {
             // The collider is on the model, which is a child of the actual parent object with NetworkIdentity
             GameObject playerObject = playerHit.transform.parent.gameObject;
 
-            //CmdSlap(playerObject);
+            CmdSlap(playerObject);
         }
     }
 
-    //[Command]
-    //private void CmdSlap(GameObject target) {
-    //    //NetworkIdentity targetIdentity = target.GetComponent<NetworkIdentity>();
+    [Command]
+    private void CmdSlap(GameObject target) {
+        NetworkIdentity targetIdentity = target.GetComponent<NetworkIdentity>();
 
-    //    //TargetSlap(targetIdentity.connectionToClient);
-    //    target.GetComponent<Rigidbody>().AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
-    //}
+        print(target.transform.position);
 
-    //[TargetRpc]
-    //private void TargetSlap(NetworkConnection target) {
-    //    _rigidbody.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
-    //}
+        TargetSlap(targetIdentity.connectionToClient);
+    }
+
+    [TargetRpc]
+    private void TargetSlap(NetworkConnection target) {
+        Rigidbody targetRigidbody = target.identity.GetComponent<Rigidbody>();
+
+        targetRigidbody.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
+    }
 
     private void DrawSlapUI() {
         List<RaycastHit> slapHits = GetSlapHits(objectsLayerMask);
