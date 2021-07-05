@@ -171,16 +171,16 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   slapMeshFilter: {fileID: 6323072433449512144}
-  animator: {fileID: 6822815572031853719}
   objectsLayerMask:
     serializedVersion: 2
     m_Bits: 64
   playersLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  slapAnimation: {fileID: 7400000, guid: 3a5f72e482942484bab93fa6ab5130b1, type: 2}
   slapRadius: 6
   slapAngleSize: 100
+  slapForce: 0.8
+  slapUpForce: 2
   slapUINumOfRays: 200
 --- !u!54 &3519533057701508685
 Rigidbody:

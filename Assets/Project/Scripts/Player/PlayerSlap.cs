@@ -14,6 +14,8 @@ public class PlayerSlap : NetworkBehaviour {
     [Header("Stats")]
     [SerializeField] private float slapRadius;
     [SerializeField] private float slapAngleSize;
+    [SerializeField] private float slapForce;
+    [SerializeField] private float slapUpForce;
     [SerializeField] private int slapUINumOfRays;
 
     private Vector3 _slapDirection;
@@ -42,7 +44,7 @@ public class PlayerSlap : NetworkBehaviour {
             // Only draw slap UI when moving joystick
             if (_slapDirection != Vector3.zero) {
                 _player.Animator.SetBool("IsCharging", true);
-
+                
                 DrawSlapUI();
             } else {
                 _player.Animator.SetBool("IsCharging", false);
@@ -69,25 +71,26 @@ public class PlayerSlap : NetworkBehaviour {
         foreach (GameObject playerHit in playerHits) {
             // The collider is on the model, which is a child of the actual parent object with NetworkIdentity
             GameObject playerObject = playerHit.transform.parent.gameObject;
+            Vector3 slapForceDirection = playerObject.transform.position - transform.position;
+            slapForceDirection += new Vector3(0, slapUpForce, 0);
+            slapForceDirection = slapForceDirection.normalized * slapForce;
 
-            CmdSlap(playerObject);
+            CmdSlap(playerObject, slapForceDirection);
         }
     }
 
     [Command]
-    private void CmdSlap(GameObject target) {
+    private void CmdSlap(GameObject target, Vector3 slapForceDirection) {
         NetworkIdentity targetIdentity = target.GetComponent<NetworkIdentity>();
 
-        print(target.transform.position);
-
-        TargetSlap(targetIdentity.connectionToClient);
+        TargetSlap(targetIdentity.connectionToClient, slapForceDirection);
     }
 
     [TargetRpc]
-    private void TargetSlap(NetworkConnection target) {
+    private void TargetSlap(NetworkConnection target, Vector3 slapForceDirection) {
         Rigidbody targetRigidbody = target.identity.GetComponent<Rigidbody>();
 
-        targetRigidbody.AddForce(new Vector3(0, 10, 0), ForceMode.Impulse);
+        targetRigidbody.AddForce(slapForceDirection * 10, ForceMode.Impulse);
     }
 
     private void DrawSlapUI() {
