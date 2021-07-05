@@ -3,65 +3,84 @@ using Mirror;
 
 public class PlayerMovement : NetworkBehaviour {
     [Header("Stats")]
-    [SerializeField] private float movementSpeed;
+    [SerializeField] private float standardMovementSpeed;
+    [SerializeField] private float chargingMovementSpeed;
 
-    [Header("Object")]
-    [SerializeField] private GameObject model;
-    [SerializeField] private Animator animator;
+    private float _currentMovementSpeed;
+    private Player _player;
 
-    private Joystick _movementJoystick;
-    private Vector3 _movementDirection;
-    private Rigidbody _rigidbody;
-    private CameraFollow _cameraFollow;
-    private Vector3 _initialTransformForward;
+    private float? _slapAngle;
 
     private void Awake() {
-        _movementJoystick = GameObject.Find("MovementJoystick").GetComponent<Joystick>();
-        _rigidbody = GetComponent<Rigidbody>();
-        _cameraFollow = Camera.main.GetComponent<CameraFollow>();
-        _initialTransformForward = transform.forward;
+        _player = GetComponent<Player>();
     }
 
     private void Start() {
         if (isLocalPlayer) {
-            _cameraFollow.Follow(transform);
+            _player.CameraFollow.Follow(transform);
         }
     }
 
     private void Update() {
         if (isLocalPlayer) {
-            _movementDirection = new Vector3(_movementJoystick.Horizontal, 0, _movementJoystick.Vertical).normalized;
-
-            if (!animator.GetBool("IsCharging")) {
-                Rotate();
+            if (_player.Animator.GetBool("IsCharging")) {
+                _currentMovementSpeed = chargingMovementSpeed;
+            } else {
+                _currentMovementSpeed = standardMovementSpeed;
             }
+
+            Rotate();
         }
     }
 
     private void FixedUpdate() {
         if (isLocalPlayer) {
-            if (!animator.GetBool("IsCharging")) {
-                Move();
-            }
+            Move();
         }
     }
 
     private void Move() {
-        if (_movementDirection == Vector3.zero) {
-            animator.SetBool("IsRunning", false);
+        Vector3 movementDirection;
 
-            return;
+        if (_player.MovementJoystick.Direction == Vector2.zero) {
+            movementDirection = Vector3.zero;
+        } else {
+            float movementAngle = Mathf.Atan2(_player.MovementJoystick.Horizontal, _player.MovementJoystick.Vertical);
+            movementAngle += _player.InitialRotationForward;
+
+            movementDirection = new Vector3(Mathf.Sin(movementAngle), 0, Mathf.Cos(movementAngle));
+
+            _player.Rigidbody.MovePosition(_player.Model.transform.position + movementDirection * _currentMovementSpeed * Time.fixedDeltaTime);
         }
 
-        animator.SetBool("IsRunning", true);
+        // Animate
 
-        _rigidbody.MovePosition(model.transform.position + transform.forward * movementSpeed * Time.fixedDeltaTime);
+        if (movementDirection == Vector3.zero) {
+            _player.Animator.SetBool("IsRunning", false);
+        } else {
+            _player.Animator.SetBool("IsRunning", true);
+        }
     }
 
     private void Rotate() {
-        if (_movementDirection == Vector3.zero) return;
+        float angle;
 
-        float rotation = Mathf.Atan2(_movementDirection.x, _movementDirection.z) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, rotation, 0) * Quaternion.LookRotation(_initialTransformForward, Vector3.up);
+        if (!_player.Animator.GetCurrentAnimatorStateInfo(0).IsName(_player.SlapAnimation.name)) {
+
+            if (_slapAngle.HasValue) { _slapAngle = null; }
+
+            angle = Mathf.Atan2(_player.MovementJoystick.Horizontal, _player.MovementJoystick.Vertical);
+        } else {
+            if (!_slapAngle.HasValue) {
+                _slapAngle = Mathf.Atan2(_player.SlapJoystick.HorizontalBeforeRelease, _player.SlapJoystick.VerticalBeforeRelease);
+            }
+
+            angle = (float)_slapAngle;
+        }
+
+        if (angle != 0) {
+            Vector3 initialVectorForward = new Vector3(Mathf.Sin(_player.InitialRotationForward), 0, Mathf.Cos(_player.InitialRotationForward));
+            transform.rotation = Quaternion.Euler(0, angle * Mathf.Rad2Deg, 0) * Quaternion.LookRotation(initialVectorForward, Vector3.up);
+        }
     }
 }

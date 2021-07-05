@@ -16,10 +16,15 @@ public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandle
     protected Vector2 _pointerCurrentPosition;
 
     protected Vector2 _direction;
+    protected Vector2 _directionBeforeRelease;
 
     public Vector2 Direction => _direction;
     public float Horizontal => _direction.x;
     public float Vertical => _direction.y;
+
+    public Vector2 DirectionBeforeRelease => _directionBeforeRelease;
+    public float HorizontalBeforeRelease => _directionBeforeRelease.x;
+    public float VerticalBeforeRelease => _directionBeforeRelease.y;
 
     [HideInInspector] public UnityEvent OnPointerUpEvent;
     [HideInInspector] public UnityEvent OnPointerDownEvent;
@@ -46,6 +51,7 @@ public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandle
 
         ResetJoystick();
 
+        _directionBeforeRelease = _direction;
         _direction = Vector2.zero;
     }
 

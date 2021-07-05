@@ -90,6 +90,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1636486779569629241}
+  - component: {fileID: 150748606423602601}
   - component: {fileID: 1636486779569629240}
   - component: {fileID: 8186651959047697935}
   - component: {fileID: 3519533057701508685}
@@ -119,6 +120,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &150748606423602601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636486779569629245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c57d98e34b841d38a643beaab02af0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Model: {fileID: 4451128943638469711}
+  Animator: {fileID: 6822815572031853719}
+  SlapAnimation: {fileID: 7400000, guid: 3a5f72e482942484bab93fa6ab5130b1, type: 2}
+  Rigidbody: {fileID: 0}
+  InitialRotationForward: 0
+  CameraFollow: {fileID: 0}
+  MovementJoystick: {fileID: 0}
+  SlapJoystick: {fileID: 0}
 --- !u!114 &1636486779569629240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,9 +154,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  movementSpeed: 7
-  model: {fileID: 4451128943638469711}
-  animator: {fileID: 6822815572031853719}
+  standardMovementSpeed: 7
+  chargingMovementSpeed: 2
 --- !u!114 &8186651959047697935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +178,7 @@ MonoBehaviour:
   playersLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  slapAnimation: {fileID: 7400000, guid: 3a5f72e482942484bab93fa6ab5130b1, type: 2}
   slapRadius: 6
   slapAngleSize: 100
   slapUINumOfRays: 200

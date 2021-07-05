@@ -6,7 +6,6 @@ using System.Linq;
 public class PlayerSlap : NetworkBehaviour {
     [Header("Objects")]
     [SerializeField] private MeshFilter slapMeshFilter;
-    [SerializeField] private Animator animator;
 
     [Header("Layer Masks")]
     [SerializeField] private LayerMask objectsLayerMask;
@@ -17,18 +16,12 @@ public class PlayerSlap : NetworkBehaviour {
     [SerializeField] private float slapAngleSize;
     [SerializeField] private int slapUINumOfRays;
 
-    private Rigidbody _rigidbody;
-    private Joystick _slapJoystick;
     private Vector3 _slapDirection;
-
-    private float _initialRotationForward;
-
     private Mesh _slapMesh;
+    private Player _player;
 
     private void Awake() {
-        _rigidbody = GetComponent<Rigidbody>();
-        _slapJoystick = GameObject.Find("SlapJoystick").GetComponent<Joystick>();
-        _initialRotationForward = Mathf.Atan2(transform.forward.x, transform.forward.z) * Mathf.Rad2Deg;
+        _player = GetComponent<Player>();
 
         _slapMesh = new Mesh();
         slapMeshFilter.mesh = _slapMesh;
@@ -36,7 +29,7 @@ public class PlayerSlap : NetworkBehaviour {
 
     public override void OnStartClient() {
         if (isLocalPlayer) {
-            _slapJoystick.OnPointerUpEvent.AddListener(Slap);
+            _player.SlapJoystick.OnPointerUpEvent.AddListener(Slap);
         }
 
         base.OnStartClient();
@@ -48,11 +41,11 @@ public class PlayerSlap : NetworkBehaviour {
 
             // Only draw slap UI when moving joystick
             if (_slapDirection != Vector3.zero) {
-                animator.SetBool("IsCharging", true);
+                _player.Animator.SetBool("IsCharging", true);
 
                 DrawSlapUI();
             } else {
-                animator.SetBool("IsCharging", false);
+                _player.Animator.SetBool("IsCharging", false);
 
                 _slapMesh.Clear();
             }
@@ -60,7 +53,7 @@ public class PlayerSlap : NetworkBehaviour {
     }
 
     private void Slap() {
-        animator.Play("SphereGuy_Slap");
+        _player.Animator.Play(_player.SlapAnimation.name);
 
         List<RaycastHit> slapHits = GetSlapHits(playersLayerMask);
         List<GameObject> playerHits = new List<GameObject>();
@@ -145,7 +138,7 @@ public class PlayerSlap : NetworkBehaviour {
 
             // If ray doesn't hit anything, just set the point of the hit to the max. Makes slap visualization easier
             if (!Physics.Raycast(transform.position, direction, out hit, slapRadius, layerMask)) {
-                hit.point = transform.position + direction * slapRadius; 
+                hit.point = transform.position + direction * slapRadius;
             }
 
             hits.Add(hit);
@@ -155,7 +148,7 @@ public class PlayerSlap : NetworkBehaviour {
     }
 
     private void UpdateSlapDirection() {
-        _slapDirection = new Vector3(_slapJoystick.Horizontal, 0, _slapJoystick.Vertical).normalized;
-        _slapDirection = Quaternion.Euler(0, _initialRotationForward, 0) * _slapDirection;
+        _slapDirection = new Vector3(_player.SlapJoystick.Horizontal, 0, _player.SlapJoystick.Vertical).normalized;
+        _slapDirection = Quaternion.Euler(0, _player.InitialRotationForward * Mathf.Rad2Deg, 0) * _slapDirection;
     }
 }
