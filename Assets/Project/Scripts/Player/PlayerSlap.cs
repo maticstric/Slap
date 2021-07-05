@@ -44,7 +44,7 @@ public class PlayerSlap : NetworkBehaviour {
             // Only draw slap UI when moving joystick
             if (_slapDirection != Vector3.zero) {
                 _player.Animator.SetBool("IsCharging", true);
-
+                
                 DrawSlapUI();
             } else {
                 _player.Animator.SetBool("IsCharging", false);
