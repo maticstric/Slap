@@ -171,6 +171,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   slapMeshFilter: {fileID: 6323072433449512144}
+  slapTrail: {fileID: 7009393296789749110}
   objectsLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -182,6 +183,7 @@ MonoBehaviour:
   slapForce: 0.8
   slapUpForce: 2
   slapUINumOfRays: 200
+  slapTrailDuration: 0.25
 --- !u!54 &3519533057701508685
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -482,3 +484,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22b8b3464dc5d448dad253ad93019487, type: 3}
+--- !u!96 &7009393296789749110 stripped
+TrailRenderer:
+  m_CorrespondingSourceObject: {fileID: 2618680135610021002, guid: 22b8b3464dc5d448dad253ad93019487, type: 3}
+  m_PrefabInstance: {fileID: 4976818048510986748}
+  m_PrefabAsset: {fileID: 0}

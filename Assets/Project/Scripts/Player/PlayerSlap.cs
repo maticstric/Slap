@@ -2,10 +2,12 @@ using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections;
 
 public class PlayerSlap : NetworkBehaviour {
     [Header("Objects")]
     [SerializeField] private MeshFilter slapMeshFilter;
+    [SerializeField] private TrailRenderer slapTrail;
 
     [Header("Layer Masks")]
     [SerializeField] private LayerMask objectsLayerMask;
@@ -17,6 +19,7 @@ public class PlayerSlap : NetworkBehaviour {
     [SerializeField] private float slapForce;
     [SerializeField] private float slapUpForce;
     [SerializeField] private int slapUINumOfRays;
+    [SerializeField] private float slapTrailDuration;
 
     private Vector3 _slapDirection;
     private Mesh _slapMesh;
@@ -54,7 +57,17 @@ public class PlayerSlap : NetworkBehaviour {
         }
     }
 
+    private IEnumerator ActivateSlapTrail() {
+        slapTrail.emitting = true;
+
+        yield return new WaitForSeconds(slapTrailDuration);
+
+        slapTrail.emitting = false;
+    }
+
     private void Slap() {
+        StartCoroutine("ActivateSlapTrail");
+
         _player.Animator.Play(_player.SlapAnimation.name);
 
         List<RaycastHit> slapHits = GetSlapHits(playersLayerMask);
