@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5550257565561143536}
   - component: {fileID: 2618680135610021002}
   m_Layer: 0
-  m_Name: slap trail
+  m_Name: Slap_Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6827802627555959608}
-  m_LocalRotation: {x: 0.063314326, y: 0.25212416, z: -0.7998934, w: -0.5409209}
+  m_LocalRotation: {x: -0.06331201, y: -0.25211963, z: 0.7998924, w: 0.5409245}
   m_LocalPosition: {x: 0.0003122275, y: 0.0024720673, z: 0.0002781352}
   m_LocalScale: {x: 0.0075131096, y: 0.0075131077, z: 0.0075131115}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 19.563, y: -23.388, z: 107.776}
 --- !u!96 &2618680135610021002
 TrailRenderer:
   serializedVersion: 2
@@ -102,8 +102,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 0}
+      key1: {r: 1, g: 0.47008726, b: 0, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -111,7 +111,7 @@ TrailRenderer:
       key6: {r: 0, g: 0, b: 0, a: 0}
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
-      ctime1: 65535
+      ctime1: 65342
       ctime2: 0
       ctime3: 0
       ctime4: 0
@@ -135,6 +135,6 @@ TrailRenderer:
     textureMode: 0
     shadowBias: 0.5
     generateLightingData: 0
-  m_MinVertexDistance: 0.1
+  m_MinVertexDistance: 0.37
   m_Autodestruct: 0
   m_Emitting: 0
