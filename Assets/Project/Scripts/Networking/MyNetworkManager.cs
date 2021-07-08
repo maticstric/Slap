@@ -31,7 +31,7 @@ public class MyNetworkManager : NetworkManager {
             GameObject lobbyPlayerObject = Instantiate(lobbyPlayerPrefab);
 
             NetworkServer.AddPlayerForConnection(conn, lobbyPlayerObject);
-        } else if (SceneManager.GetActiveScene().name == GameManager.LEVEL01_SCENE_NAME) {
+        } else if (SceneManager.GetActiveScene().name.Substring(0, 5) == "Level") { // If it's a level
             Transform startPos = GetStartPosition();
 
             GameObject gamePlayerObject = Instantiate(gamePlayerPrefab, startPos.position, startPos.rotation);
