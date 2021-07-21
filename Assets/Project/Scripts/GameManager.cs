@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour {
     public const string LEVEL01_SCENE_NAME = "Level01";
     public const string LEVEL02_SCENE_NAME = "Level02";
 
+    string[] LEVEL_SCENE_NAMES = new string[] {
+        "Level01", "Level02"
+    };
+
     private void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -19,5 +23,16 @@ public class GameManager : MonoBehaviour {
         }
 
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void CmdLoadRandomLevel() {
+        string randomScene = GetRandomLevel();
+        MyNetworkManager.singleton.ServerChangeScene(randomScene);
+    }
+
+    public string GetRandomLevel() {
+        int randomIndex = Random.Range(0, LEVEL_SCENE_NAMES.Length);
+
+        return LEVEL_SCENE_NAMES[randomIndex];
     }
 }

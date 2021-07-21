@@ -1,42 +1,48 @@
 using UnityEngine;
-using System.Collections.Generic;
 using Mirror;
 
 public class PlayerDeath : NetworkBehaviour {
     private Player _player;
+    private CameraFollow _cameraFollow;
+    private Transform _spectatePosition;
 
     private void Awake() {
         _player = GetComponent<Player>();
+        _cameraFollow = Camera.main.GetComponent<CameraFollow>();
+        _spectatePosition = GameObject.Find("SpectatePosition").transform;
     }
 
     private void OnTriggerExit(Collider collider) {
-        if (isLocalPlayer) {
-            if (collider.gameObject.name.Equals("DeathTrigger")) {
+        if (collider.gameObject.name.Equals("DeathTrigger")) {
+            if (isLocalPlayer) {
                 _player.CmdSetIsAlive(false);
 
-                List<Player> alivePlayers = GetAlivePlayers();
+                // TODO: Display YOU DIED etc.
 
-                foreach (Player player in alivePlayers) {
-                    print(player.name);
-                }
+                _cameraFollow.MoveToSpectate(_spectatePosition.position, _spectatePosition.rotation);
+
+            }
+
+            if (isServer) {
+                GameManager.Instance.CmdLoadRandomLevel();
             }
         }
     }
 
-    public List<Player> GetAlivePlayers() {
-        List<Player> alivePlayers = new List<Player>();
+    //private List<Player> GetAlivePlayers() {
+    //    List<Player> alivePlayers = new List<Player>();
 
-        if (isLocalPlayer) {
-            Player[] players = FindObjectsOfType<Player>();
+    //    if (isLocalPlayer) {
+    //        Player[] players = FindObjectsOfType<Player>();
 
-            foreach (Player player in players) {
-                if (player.IsAlive && !player.isLocalPlayer) { // If alive and not itself
-                    alivePlayers.Add(player);
-                }
-            }
+    //        foreach (Player player in players) {
+    //            if (player.IsAlive && !player.isLocalPlayer) { // If alive and not itself
+    //                alivePlayers.Add(player);
+    //            }
+    //        }
 
-        }
+    //    }
 
-        return alivePlayers;
-    }
+    //    return alivePlayers;
+    //}
 }
