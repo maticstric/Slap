@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: StackMap Material
+  m_Name: DonutMap_Material
   m_Shader: {fileID: 4800000, guid: f8d49205b3b0a644195633020367689d, type: 3}
   m_ShaderKeywords: TCP2_DISABLE_WRAPPED_LIGHT TCP2_UV_NORMALS_FULL _GLOSSYREFLECTIONS_OFF
     _SPECULARHIGHLIGHTS_OFF
@@ -41,7 +41,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 303e4d61e804347ebadd36d9a97926fa, type: 3}
+        m_Texture: {fileID: 2800000, guid: 21fd5d57a343041549d47179f6667cf1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
