@@ -1324,10 +1324,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 497575316}
     m_Modifications:
+    - target: {fileID: 2350740923696620118, guid: e38660ef10deb4454a87bba61334fc34, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4044a0f5f837c4d4887e0da420c72355, type: 2}
     - target: {fileID: 2759121891864493865, guid: e38660ef10deb4454a87bba61334fc34, type: 3}
       propertyPath: m_Name
       value: StackMap
       objectReference: {fileID: 0}
+    - target: {fileID: 2858732773541348681, guid: e38660ef10deb4454a87bba61334fc34, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4044a0f5f837c4d4887e0da420c72355, type: 2}
     - target: {fileID: 3243029417230230931, guid: e38660ef10deb4454a87bba61334fc34, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1384,6 +1392,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3994084404664092168, guid: e38660ef10deb4454a87bba61334fc34, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4044a0f5f837c4d4887e0da420c72355, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e38660ef10deb4454a87bba61334fc34, type: 3}
 --- !u!4 &1837872600 stripped
