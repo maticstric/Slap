@@ -156,14 +156,14 @@ GameObject:
   - component: {fileID: 150748606423602601}
   - component: {fileID: 1636486779569629240}
   - component: {fileID: 8186651959047697935}
-  - component: {fileID: 7110708973974516082}
+  - component: {fileID: 3968944399077570026}
   - component: {fileID: 3519533057701508685}
   - component: {fileID: 1636486779569629243}
   - component: {fileID: -2144592014439056758}
   - component: {fileID: 4906770497901649962}
   m_Layer: 7
   m_Name: GamePlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -252,7 +252,7 @@ MonoBehaviour:
   slapUpForce: 2
   slapUINumOfRays: 200
   slapTrailDuration: 0.25
---- !u!114 &7110708973974516082
+--- !u!114 &3968944399077570026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -261,11 +261,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1636486779569629245}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 461e92e7806804f48850f17c0f594fdd, type: 3}
+  m_Script: {fileID: 11500000, guid: 259105718d115485798ddcf598a01408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!54 &3519533057701508685
 Rigidbody:
   m_ObjectHideFlags: 0

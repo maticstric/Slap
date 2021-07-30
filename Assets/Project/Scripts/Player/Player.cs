@@ -15,8 +15,10 @@ public class Player : NetworkBehaviour {
     [HideInInspector] public Joystick MovementJoystick;
     [HideInInspector] public Joystick SlapJoystick;
 
-    [HideInInspector][SyncVar(hook = nameof(OnIsAliveChanged))]
+    [SyncVar(hook = nameof(OnIsAliveChanged))]
     public bool IsAlive;
+
+    private PlayerDeath _playerDeath;
 
     private void Awake() {
         Rigidbody = GetComponent<Rigidbody>();
@@ -24,9 +26,12 @@ public class Player : NetworkBehaviour {
         CameraFollow = Camera.main.GetComponent<CameraFollow>();
         MovementJoystick = GameObject.Find("MovementJoystick").GetComponent<Joystick>();
         SlapJoystick = GameObject.Find("SlapJoystick").GetComponent<Joystick>();
+        _playerDeath = GetComponent<PlayerDeath>();
     }
 
     public override void OnStartAuthority() {
+        base.OnStartAuthority();
+
         CmdSetIsAlive(true);
     }
 
@@ -35,5 +40,13 @@ public class Player : NetworkBehaviour {
         IsAlive = isAlive;
     }
 
-    private void OnIsAliveChanged(bool oldValue, bool newValue) { }
+    private void OnIsAliveChanged(bool oldValue, bool newValue) {
+        if (oldValue == true && newValue == false) { // Somebody died
+            int numPlayersAlive = _playerDeath.CountAlivePlayers();
+
+            if (isServer && numPlayersAlive == 1) {
+                _playerDeath.SwitchLevel();
+            }
+        }
+    }
 }

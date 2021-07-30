@@ -25,11 +25,6 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
     }
 
-    public void CmdLoadRandomLevel() {
-        string randomScene = GetRandomLevel();
-        MyNetworkManager.singleton.ServerChangeScene(randomScene);
-    }
-
     public string GetRandomLevel() {
         int randomIndex = Random.Range(0, LEVEL_SCENE_NAMES.Length);
 

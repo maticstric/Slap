@@ -27,6 +27,8 @@ public class MyNetworkManager : NetworkManager {
     }
 
     public override void OnServerReady(NetworkConnection conn) {
+        base.OnServerReady(conn);
+
         if (SceneManager.GetActiveScene().name == GameManager.LOBBY_SCENE_NAME) {
             GameObject lobbyPlayerObject = Instantiate(lobbyPlayerPrefab);
 

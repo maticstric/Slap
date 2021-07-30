@@ -3,46 +3,45 @@ using Mirror;
 
 public class PlayerDeath : NetworkBehaviour {
     private Player _player;
-    private CameraFollow _cameraFollow;
-    private Transform _spectatePosition;
 
     private void Awake() {
         _player = GetComponent<Player>();
-        _cameraFollow = Camera.main.GetComponent<CameraFollow>();
-        _spectatePosition = GameObject.Find("SpectatePosition").transform;
     }
 
-    private void OnTriggerExit(Collider collider) {
-        if (collider.gameObject.name.Equals("DeathTrigger")) {
+    private void OnTriggerEnter(Collider collider) {
+        if (collider.name == "DeathTrigger") {
+            //if (isServer) {
+            //    print(CountAlivePlayers());
+            //    if (CountAlivePlayers() == 2) {
+            //        string randomLevel = GameManager.Instance.GetRandomLevel();
+            //        MyNetworkManager.singleton.ServerChangeScene(randomLevel);
+            //    }
+            //}
+
             if (isLocalPlayer) {
                 _player.CmdSetIsAlive(false);
-
-                // TODO: Display YOU DIED etc.
-
-                _cameraFollow.MoveToSpectate(_spectatePosition.position, _spectatePosition.rotation);
-
-            }
-
-            if (isServer) {
-                GameManager.Instance.CmdLoadRandomLevel();
             }
         }
     }
 
-    //private List<Player> GetAlivePlayers() {
-    //    List<Player> alivePlayers = new List<Player>();
+    [Server]
+    public void SwitchLevel() {
+        string randomLevel = GameManager.Instance.GetRandomLevel();
+        MyNetworkManager.singleton.ServerChangeScene(randomLevel);
+    }
 
-    //    if (isLocalPlayer) {
-    //        Player[] players = FindObjectsOfType<Player>();
+    public int CountAlivePlayers() {
+        GameObject[] playerGameObjects = GameObject.FindGameObjectsWithTag("Player");
+        int count = 0;
 
-    //        foreach (Player player in players) {
-    //            if (player.IsAlive && !player.isLocalPlayer) { // If alive and not itself
-    //                alivePlayers.Add(player);
-    //            }
-    //        }
+        foreach (GameObject playerGameObject in playerGameObjects) {
+            Player player = playerGameObject.GetComponent<Player>();
 
-    //    }
+            if (player.IsAlive) {
+                count++;
+            }
+        }
 
-    //    return alivePlayers;
-    //}
+        return count;
+    }
 }
