@@ -21,7 +21,7 @@ public class MyNetworkManager : NetworkManager {
         CancellationTokenSource cts = new CancellationTokenSource(10000);
         NatDevice device = await discoverer.DiscoverDeviceAsync(PortMapper.Upnp, cts);
 
-        await device.CreatePortMapAsync(new Mapping(Protocol.Udp, _UPnPPort, _UPnPPort, _UPnPDescription));
+        //await device.CreatePortMapAsync(new Mapping(Protocol.Udp, _UPnPPort, _UPnPPort, _UPnPDescription));
 
         base.Start();
     }
