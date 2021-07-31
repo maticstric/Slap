@@ -10,14 +10,6 @@ public class PlayerDeath : NetworkBehaviour {
 
     private void OnTriggerEnter(Collider collider) {
         if (collider.name == "DeathTrigger") {
-            //if (isServer) {
-            //    print(CountAlivePlayers());
-            //    if (CountAlivePlayers() == 2) {
-            //        string randomLevel = GameManager.Instance.GetRandomLevel();
-            //        MyNetworkManager.singleton.ServerChangeScene(randomLevel);
-            //    }
-            //}
-
             if (isLocalPlayer) {
                 _player.CmdSetIsAlive(false);
             }

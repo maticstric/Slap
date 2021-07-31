@@ -17,9 +17,9 @@ public class PlayerSlap : NetworkBehaviour {
     [SerializeField] private float slapRadius;
     [SerializeField] private float slapAngleSize;
     [SerializeField] private float slapForce;
-    [SerializeField] private float slapUpForce;
     [SerializeField] private int slapUINumOfRays;
     [SerializeField] private float slapTrailDuration;
+    [SerializeField] private float slapMovementCooldown;
 
     private Vector3 _slapDirection;
     private Mesh _slapMesh;
@@ -84,9 +84,9 @@ public class PlayerSlap : NetworkBehaviour {
         foreach (GameObject playerHit in playerHits) {
             // The collider is on the model, which is a child of the actual parent object with NetworkIdentity
             GameObject playerObject = playerHit.transform.parent.gameObject;
-            Vector3 slapForceDirection = playerObject.transform.position - transform.position;
-            slapForceDirection += new Vector3(0, slapUpForce, 0);
-            slapForceDirection = slapForceDirection.normalized * slapForce;
+
+            Vector3 slapForceDirection = (playerObject.transform.position - transform.position).normalized;
+            slapForceDirection *= slapForce;
 
             CmdSlap(playerObject, slapForceDirection);
         }
@@ -101,9 +101,25 @@ public class PlayerSlap : NetworkBehaviour {
 
     [TargetRpc]
     private void TargetSlap(NetworkConnection target, Vector3 slapForceDirection) {
+        PlayerMovement playerMovement = target.identity.GetComponent<PlayerMovement>();
+        CameraShake cameraShake = target.identity.GetComponent<Player>().CameraShake;
+
+        StartCoroutine(cameraShake.Shake());
+
+        StopCoroutine("ActivateMovementCooldown");
+        StartCoroutine(ActivateMovementCooldown(playerMovement));
+
         Rigidbody targetRigidbody = target.identity.GetComponent<Rigidbody>();
 
         targetRigidbody.AddForce(slapForceDirection * 10, ForceMode.Impulse);
+    }
+
+    private IEnumerator ActivateMovementCooldown(PlayerMovement playerMovement) {
+        playerMovement.MovementEnabled = false;
+
+        yield return new WaitForSeconds(slapMovementCooldown);
+
+        playerMovement.MovementEnabled = true;
     }
 
     private void DrawSlapUI() {

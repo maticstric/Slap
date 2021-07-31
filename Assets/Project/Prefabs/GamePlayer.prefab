@@ -204,6 +204,7 @@ MonoBehaviour:
   Rigidbody: {fileID: 0}
   InitialRotationForward: 0
   CameraFollow: {fileID: 0}
+  CameraShake: {fileID: 0}
   MovementJoystick: {fileID: 0}
   SlapJoystick: {fileID: 0}
   IsAlive: 0
@@ -224,6 +225,7 @@ MonoBehaviour:
   walkingParticles: {fileID: 786236102196348928}
   standardMovementSpeed: 7
   chargingMovementSpeed: 2
+  MovementEnabled: 0
 --- !u!114 &8186651959047697935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -249,9 +251,9 @@ MonoBehaviour:
   slapRadius: 6
   slapAngleSize: 100
   slapForce: 0.8
-  slapUpForce: 2
   slapUINumOfRays: 200
   slapTrailDuration: 0.25
+  slapMovementCooldown: 0.8
 --- !u!114 &3968944399077570026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,6 +266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 259105718d115485798ddcf598a01408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!54 &3519533057701508685
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -5796,8 +5796,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1363007795}
-  - component: {fileID: 1363007794}
   - component: {fileID: 1363007796}
+  - component: {fileID: 1363007797}
+  - component: {fileID: 1363007794}
   - component: {fileID: 1363007793}
   m_Layer: 0
   m_Name: Main Camera
@@ -5887,6 +5888,20 @@ MonoBehaviour:
   offsetBehind: 15
   rotationDown: 50
   spectateMoveDuration: 4
+--- !u!114 &1363007797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363007792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 551469b43896d4af28eac98717239b71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeDuration: 0.2
+  shakeMagnitude: 0.3
 --- !u!1 &1466966825
 GameObject:
   m_ObjectHideFlags: 0

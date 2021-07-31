@@ -9,12 +9,15 @@ public class PlayerMovement : NetworkBehaviour {
     [SerializeField] private float standardMovementSpeed;
     [SerializeField] private float chargingMovementSpeed;
 
+    public bool MovementEnabled;
+
     private float _currentMovementSpeed;
     private Player _player;
 
     private float? _slapAngle;
 
     private void Awake() {
+        MovementEnabled = true;
         _player = GetComponent<Player>();
     }
 
@@ -25,7 +28,7 @@ public class PlayerMovement : NetworkBehaviour {
     }
 
     private void Update() {
-        if (isLocalPlayer) {
+        if (isLocalPlayer && MovementEnabled) {
             if (_player.Animator.GetBool("IsCharging")) {
                 _currentMovementSpeed = chargingMovementSpeed;
             } else {
@@ -37,7 +40,7 @@ public class PlayerMovement : NetworkBehaviour {
     }
 
     private void FixedUpdate() {
-        if (isLocalPlayer) {
+        if (isLocalPlayer && MovementEnabled) {
             Move();
         }
     }
