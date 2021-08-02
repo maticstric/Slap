@@ -2,9 +2,6 @@ using UnityEngine;
 using Mirror;
 
 public class PlayerMovement : NetworkBehaviour {
-    [Header("Objects")]
-    [SerializeField] private ParticleSystem walkingParticles;
-
     [Header("Stats")]
     [SerializeField] private float standardMovementSpeed;
     [SerializeField] private float chargingMovementSpeed;
@@ -59,15 +56,11 @@ public class PlayerMovement : NetworkBehaviour {
             _player.Rigidbody.MovePosition(_player.Model.transform.position + movementDirection * _currentMovementSpeed * Time.fixedDeltaTime);
         }
 
-        // Animate + particles
+        // Animate
 
         if (movementDirection == Vector3.zero) {
-            if (walkingParticles.isPlaying) { walkingParticles.Stop(); }
-
             _player.Animator.SetBool("IsRunning", false);
         } else {
-            if (!walkingParticles.isPlaying) { walkingParticles.Play(); }
-
             _player.Animator.SetBool("IsRunning", true);
         }
     }

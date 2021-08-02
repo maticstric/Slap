@@ -25,6 +25,9 @@ public class PlayerSlap : NetworkBehaviour {
     private Mesh _slapMesh;
     private Player _player;
 
+    [SyncVar(hook = "OnIsSlapTrailEmittingChanged")]
+    public bool IsSlapTrailEmitting = false;
+
     private void Awake() {
         _player = GetComponent<Player>();
 
@@ -57,12 +60,17 @@ public class PlayerSlap : NetworkBehaviour {
         }
     }
 
+    [Command]
+    private void CmdSetIsSlapTrailEmitting(bool isEmitting) {
+        IsSlapTrailEmitting = isEmitting;
+    }
+
     private IEnumerator ActivateSlapTrail() {
-        slapTrail.emitting = true;
+        CmdSetIsSlapTrailEmitting(true);
 
         yield return new WaitForSeconds(slapTrailDuration);
 
-        slapTrail.emitting = false;
+        CmdSetIsSlapTrailEmitting(false);
     }
 
     private void Slap() {
@@ -182,5 +190,9 @@ public class PlayerSlap : NetworkBehaviour {
     private void UpdateSlapDirection() {
         _slapDirection = new Vector3(_player.SlapJoystick.Horizontal, 0, _player.SlapJoystick.Vertical).normalized;
         _slapDirection = Quaternion.Euler(0, _player.InitialRotationForward * Mathf.Rad2Deg, 0) * _slapDirection;
+    }
+
+    private void OnIsSlapTrailEmittingChanged(bool oldValue, bool newValue) {
+        slapTrail.emitting = IsSlapTrailEmitting;
     }
 }
