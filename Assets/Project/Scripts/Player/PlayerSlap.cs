@@ -8,6 +8,7 @@ public class PlayerSlap : NetworkBehaviour {
     [Header("Objects")]
     [SerializeField] private MeshFilter slapMeshFilter;
     [SerializeField] private TrailRenderer slapTrail;
+    public ParticleSystem SlapParticles;
 
     [Header("Layer Masks")]
     [SerializeField] private LayerMask objectsLayerMask;
@@ -105,6 +106,12 @@ public class PlayerSlap : NetworkBehaviour {
         NetworkIdentity targetIdentity = target.GetComponent<NetworkIdentity>();
 
         TargetSlap(targetIdentity.connectionToClient, slapForceDirection);
+        RpcPlaySlapParticles(target);
+    }
+
+    [ClientRpc]
+    private void RpcPlaySlapParticles(GameObject target) {
+        target.GetComponent<PlayerSlap>().SlapParticles.Play();
     }
 
     [TargetRpc]
