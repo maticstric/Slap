@@ -15,7 +15,9 @@ public class PlayerSlap : NetworkBehaviour {
     [SerializeField] private LayerMask playersLayerMask;
 
     [Header("Stats")]
-    [SerializeField] private float slapRadius;
+    [SerializeField] private float initialSlapRadius;
+    [SerializeField] private float maxSlapRadius;
+    [SerializeField] private float timeToMaxSlapRadius;
     [SerializeField] private float slapAngleSize;
     [SerializeField] private float slapForce;
     [SerializeField] private int slapUINumOfRays;
@@ -23,14 +25,19 @@ public class PlayerSlap : NetworkBehaviour {
     [SerializeField] private float slapMovementCooldown;
 
     private Vector3 _slapDirection;
+    private Vector3 _previousSlapDirection;
+
     private Mesh _slapMesh;
     private Player _player;
+    private float _currentSlapRadius;
 
     [SyncVar(hook = "OnIsSlapTrailEmittingChanged")]
     public bool IsSlapTrailEmitting = false;
 
     private void Awake() {
         _player = GetComponent<Player>();
+
+        _currentSlapRadius = initialSlapRadius;
 
         _slapMesh = new Mesh();
         slapMeshFilter.mesh = _slapMesh;
@@ -45,25 +52,58 @@ public class PlayerSlap : NetworkBehaviour {
     }
 
     private void Update() {
+
         if (isLocalPlayer) {
             UpdateSlapDirection();
+            UpdateCurrentSlapRadius();
 
             // Only draw slap UI when moving joystick
             if (_slapDirection != Vector3.zero) {
-                _player.Animator.SetBool("IsCharging", true);
-                
+                if (_previousSlapDirection == Vector3.zero) {
+                    StartCoroutine("ChargeCurrentSlapRadius");
+
+                    _player.Animator.SetBool("IsCharging", true);
+                }
+
                 DrawSlapUI();
             } else {
-                _player.Animator.SetBool("IsCharging", false);
+                if (_previousSlapDirection != Vector3.zero) {
+                    StopCoroutine("ChargeCurrentSlapRadius");
+
+                    _player.Animator.SetBool("IsCharging", false);
+                }
 
                 _slapMesh.Clear();
             }
+
+            _previousSlapDirection = _slapDirection;
         }
+    }
+
+    private void UpdateCurrentSlapRadius() {
+        _currentSlapRadius += 0.1f;
     }
 
     [Command]
     private void CmdSetIsSlapTrailEmitting(bool isEmitting) {
         IsSlapTrailEmitting = isEmitting;
+    }
+
+    private IEnumerator ChargeCurrentSlapRadius() {
+        while (true) {
+            float time = 0;
+            _currentSlapRadius = initialSlapRadius;
+
+            while (time < timeToMaxSlapRadius) {
+                float percent = time / timeToMaxSlapRadius;
+                print(_currentSlapRadius);
+                _currentSlapRadius = Mathf.Lerp(initialSlapRadius, maxSlapRadius, percent);
+
+                time += Time.deltaTime;
+
+                yield return null;
+            }
+        }
     }
 
     private IEnumerator ActivateSlapTrail() {
@@ -184,8 +224,8 @@ public class PlayerSlap : NetworkBehaviour {
             RaycastHit hit;
 
             // If ray doesn't hit anything, just set the point of the hit to the max. Makes slap visualization easier
-            if (!Physics.Raycast(transform.position, direction, out hit, slapRadius, layerMask)) {
-                hit.point = transform.position + direction * slapRadius;
+            if (!Physics.Raycast(transform.position, direction, out hit, _currentSlapRadius, layerMask)) {
+                hit.point = transform.position + direction * _currentSlapRadius;
             }
 
             hits.Add(hit);

@@ -250,7 +250,9 @@ MonoBehaviour:
   playersLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  slapRadius: 6
+  initialSlapRadius: 3
+  maxSlapRadius: 7
+  timeToMaxSlapRadius: 2
   slapAngleSize: 100
   slapForce: 0.8
   slapUINumOfRays: 200
