@@ -12,6 +12,11 @@ public class CameraFollow : MonoBehaviour {
 
     private Transform _followTarget;
     private Vector3 _offset;
+    private Transform _spectatePosition;
+
+    private void Awake() {
+        _spectatePosition = GameObject.Find("SpectatePosition").transform;
+    }
 
     private void Update() {
         if (_followTarget) {
@@ -38,8 +43,8 @@ public class CameraFollow : MonoBehaviour {
         transform.rotation = rotation;
     }
 
-    public void MoveToSpectate(Vector3 position, Quaternion rotation) {
-        MoveTo(position, rotation, spectateMoveDuration);
+    public void MoveToSpectate() {
+        MoveTo(_spectatePosition.position, _spectatePosition.rotation, spectateMoveDuration);
     }
 
     public void MoveTo(Vector3 position, Quaternion rotation, float duration) {

@@ -46,7 +46,7 @@ public class Player : NetworkBehaviour {
         if (oldValue == true && newValue == false) { // Somebody died
             int numPlayersAlive = _playerDeath.CountAlivePlayers();
 
-            if (isServer && numPlayersAlive == 1) {
+            if (isServer && numPlayersAlive <= 1) {
                 _playerDeath.SwitchLevel();
             }
         }

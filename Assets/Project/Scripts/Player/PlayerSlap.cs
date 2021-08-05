@@ -165,7 +165,6 @@ public class PlayerSlap : NetworkBehaviour {
         StartCoroutine(ActivateMovementCooldown(playerMovement));
 
         Rigidbody targetRigidbody = target.identity.GetComponent<Rigidbody>();
-
         targetRigidbody.AddForce(slapForceDirection * 10, ForceMode.Impulse);
     }
 

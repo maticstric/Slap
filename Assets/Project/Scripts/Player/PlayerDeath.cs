@@ -8,10 +8,11 @@ public class PlayerDeath : NetworkBehaviour {
         _player = GetComponent<Player>();
     }
 
-    private void OnTriggerEnter(Collider collider) {
+    private void OnTriggerExit(Collider collider) {
         if (collider.name == "DeathTrigger") {
             if (isLocalPlayer) {
                 _player.CmdSetIsAlive(false);
+                _player.CameraFollow.MoveToSpectate();
             }
         }
     }
