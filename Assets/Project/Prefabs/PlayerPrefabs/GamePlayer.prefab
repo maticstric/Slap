@@ -207,8 +207,6 @@ MonoBehaviour:
   InitialRotationForward: 0
   CameraFollow: {fileID: 0}
   CameraShake: {fileID: 0}
-  MovementJoystick: {fileID: 0}
-  SlapJoystick: {fileID: 0}
   IsAlive: 0
 --- !u!114 &1636486779569629240
 MonoBehaviour:
@@ -250,9 +248,9 @@ MonoBehaviour:
   playersLayerMask:
     serializedVersion: 2
     m_Bits: 128
-  initialSlapRadius: 5
+  initialSlapRadius: 3
   maxSlapRadius: 7
-  timeToMaxSlapRadius: 2
+  timeToMaxSlapRadius: 1.5
   slapAngleSize: 100
   slapForce: 0.8
   slapUINumOfRays: 200

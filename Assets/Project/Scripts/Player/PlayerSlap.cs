@@ -49,15 +49,13 @@ public class PlayerSlap : NetworkBehaviour {
         _levelManager = FindObjectOfType<LevelManager>();
 
         if (isLocalPlayer) {
-            _levelManager.SlapJoystick.OnPointerUpEvent.AddListener(Slap);
+            _levelManager.SlapJoystick.onPointerUpEvent += Slap;
         }
     }
 
     private void Update() {
-
         if (isLocalPlayer) {
             UpdateSlapDirection();
-            UpdateCurrentSlapRadius();
 
             // Only draw slap UI when moving joystick
             if (_slapDirection != Vector3.zero) {
@@ -82,10 +80,6 @@ public class PlayerSlap : NetworkBehaviour {
         }
     }
 
-    private void UpdateCurrentSlapRadius() {
-        _currentSlapRadius += 0.1f;
-    }
-
     [Command]
     private void CmdSetIsSlapTrailEmitting(bool isEmitting) {
         IsSlapTrailEmitting = isEmitting;
@@ -99,7 +93,19 @@ public class PlayerSlap : NetworkBehaviour {
             while (time < timeToMaxSlapRadius) {
                 float percent = time / timeToMaxSlapRadius;
 
-                _currentSlapRadius = Mathf.Lerp(initialSlapRadius, maxSlapRadius, percent);
+                _currentSlapRadius = Mathf.SmoothStep(initialSlapRadius, maxSlapRadius, percent);
+
+                time += Time.deltaTime;
+
+                yield return null;
+            }
+
+            time = 0;
+
+            while (time < timeToMaxSlapRadius) {
+                float percent = time / timeToMaxSlapRadius;
+
+                _currentSlapRadius = Mathf.SmoothStep(maxSlapRadius, initialSlapRadius, percent);
 
                 time += Time.deltaTime;
 

@@ -26,13 +26,12 @@ public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandle
     public float HorizontalBeforeRelease => _directionBeforeRelease.x;
     public float VerticalBeforeRelease => _directionBeforeRelease.y;
 
-    [HideInInspector] public UnityEvent OnPointerUpEvent;
-    [HideInInspector] public UnityEvent OnPointerDownEvent;
+    public delegate void OnPointerUpEvent();
+    public event OnPointerUpEvent onPointerUpEvent;
+    public delegate void OnPointerDownEvent();
+    public event OnPointerDownEvent onPointerDownEvent;
 
     private void Start() {
-        OnPointerUpEvent = new UnityEvent();
-        OnPointerDownEvent = new UnityEvent();
-
         ResetJoystick();
     }
 
@@ -47,7 +46,7 @@ public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandle
     public abstract void OnDrag(PointerEventData eventData);
 
     public virtual void OnPointerUp(PointerEventData eventData) {
-        OnPointerUpEvent.Invoke();
+        onPointerUpEvent?.Invoke();
 
         ResetJoystick();
 
@@ -56,7 +55,7 @@ public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandle
     }
 
     private void ResetJoystick() {
-        OnPointerDownEvent.Invoke();
+        onPointerDownEvent?.Invoke();
 
         background.sizeDelta = new Vector2(size, size);
         handle.sizeDelta = new Vector2(size * 0.5f, size * 0.5f); // Handle is 50% of background
