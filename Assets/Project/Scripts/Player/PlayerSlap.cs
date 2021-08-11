@@ -31,6 +31,8 @@ public class PlayerSlap : NetworkBehaviour {
     private Player _player;
     private float _currentSlapRadius;
 
+    private LevelManager _levelManager;
+
     [SyncVar(hook = "OnIsSlapTrailEmittingChanged")]
     public bool IsSlapTrailEmitting = false;
 
@@ -43,12 +45,12 @@ public class PlayerSlap : NetworkBehaviour {
         slapMeshFilter.mesh = _slapMesh;
     }
 
-    public override void OnStartClient() {
-        if (isLocalPlayer) {
-            _player.SlapJoystick.OnPointerUpEvent.AddListener(Slap);
-        }
+    private void Start() {
+        _levelManager = FindObjectOfType<LevelManager>();
 
-        base.OnStartClient();
+        if (isLocalPlayer) {
+            _levelManager.SlapJoystick.OnPointerUpEvent.AddListener(Slap);
+        }
     }
 
     private void Update() {
@@ -96,7 +98,7 @@ public class PlayerSlap : NetworkBehaviour {
 
             while (time < timeToMaxSlapRadius) {
                 float percent = time / timeToMaxSlapRadius;
-                print(_currentSlapRadius);
+
                 _currentSlapRadius = Mathf.Lerp(initialSlapRadius, maxSlapRadius, percent);
 
                 time += Time.deltaTime;
@@ -234,7 +236,7 @@ public class PlayerSlap : NetworkBehaviour {
     }
 
     private void UpdateSlapDirection() {
-        _slapDirection = new Vector3(_player.SlapJoystick.Horizontal, 0, _player.SlapJoystick.Vertical).normalized;
+        _slapDirection = new Vector3(_levelManager.SlapJoystick.Horizontal, 0, _levelManager.SlapJoystick.Vertical).normalized;
         _slapDirection = Quaternion.Euler(0, _player.InitialRotationForward * Mathf.Rad2Deg, 0) * _slapDirection;
     }
 

@@ -13,18 +13,20 @@ public class MyNetworkManager : NetworkManager {
     [SerializeField] private int minPlayers;
     [SerializeField] private int maxPlayers;
 
-    private int _UPnPPort = 7777;
-    private string _UPnPDescription = "Mapping created by Slap";
+    //private int _UPnPPort = 7777;
+    //private string _UPnPDescription = "Mapping created by Slap";
 
-    public override async void Start() {
-        NatDiscoverer discoverer = new NatDiscoverer();
-        CancellationTokenSource cts = new CancellationTokenSource(10000);
-        NatDevice device = await discoverer.DiscoverDeviceAsync(PortMapper.Upnp, cts);
+    private int _playersLoaded = 0;
 
-        await device.CreatePortMapAsync(new Mapping(Protocol.Udp, _UPnPPort, _UPnPPort, _UPnPDescription));
+    //public override async void Start() {
+    //    NatDiscoverer discoverer = new NatDiscoverer();
+    //    CancellationTokenSource cts = new CancellationTokenSource(10000);
+    //    NatDevice device = await discoverer.DiscoverDeviceAsync(PortMapper.Upnp, cts);
 
-        base.Start();
-    }
+    //    await device.CreatePortMapAsync(new Mapping(Protocol.Udp, _UPnPPort, _UPnPPort, _UPnPDescription));
+
+    //    base.Start();
+    //}
 
     public override void OnServerReady(NetworkConnection conn) {
         base.OnServerReady(conn);
@@ -39,12 +41,16 @@ public class MyNetworkManager : NetworkManager {
             GameObject gamePlayerObject = Instantiate(gamePlayerPrefab, startPos.position, startPos.rotation);
 
             NetworkServer.AddPlayerForConnection(conn, gamePlayerObject);
+
+            _playersLoaded++;
+
+            if (_playersLoaded == NetworkServer.connections.Count) {
+                _playersLoaded = 0; // Reset for next level
+
+                LevelManager levelManager = GameObject.Find("Level").GetComponent<LevelManager>();
+
+                levelManager.AllPlayersLoaded();
+            }
         }
-    }
-
-    public override void OnServerAddPlayer(NetworkConnection conn) {
-        GameObject lobbyPlayer = Instantiate(lobbyPlayerPrefab);
-
-        NetworkServer.AddPlayerForConnection(conn, lobbyPlayer);
     }
 }

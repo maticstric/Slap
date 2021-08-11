@@ -13,8 +13,6 @@ public class Player : NetworkBehaviour {
     [HideInInspector] public float InitialRotationForward;
     [HideInInspector] public CameraFollow CameraFollow;
     [HideInInspector] public CameraShake CameraShake;
-    [HideInInspector] public Joystick MovementJoystick;
-    [HideInInspector] public Joystick SlapJoystick;
 
     [SyncVar(hook = nameof(OnIsAliveChanged))]
     public bool IsAlive;
@@ -22,13 +20,12 @@ public class Player : NetworkBehaviour {
     private PlayerDeath _playerDeath;
 
     private void Awake() {
+        _playerDeath = GetComponent<PlayerDeath>();
+
         Rigidbody = GetComponent<Rigidbody>();
         InitialRotationForward = Mathf.Atan2(transform.forward.x, transform.forward.z);
         CameraFollow = Camera.main.GetComponent<CameraFollow>();
         CameraShake = Camera.main.GetComponent<CameraShake>();
-        MovementJoystick = GameObject.Find("MovementJoystick").GetComponent<Joystick>();
-        SlapJoystick = GameObject.Find("SlapJoystick").GetComponent<Joystick>();
-        _playerDeath = GetComponent<PlayerDeath>();
     }
 
     public override void OnStartAuthority() {

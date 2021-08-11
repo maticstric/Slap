@@ -10,6 +10,7 @@ public class PlayerMovement : NetworkBehaviour {
 
     private float _currentMovementSpeed;
     private Player _player;
+    private LevelManager _levelManager;
 
     private float? _slapAngle;
 
@@ -19,6 +20,8 @@ public class PlayerMovement : NetworkBehaviour {
     }
 
     private void Start() {
+        _levelManager = FindObjectOfType<LevelManager>();
+
         if (isLocalPlayer) {
             _player.CameraFollow.Follow(transform);
         }
@@ -45,10 +48,10 @@ public class PlayerMovement : NetworkBehaviour {
     private void Move() {
         Vector3 movementDirection;
 
-        if (_player.MovementJoystick.Direction == Vector2.zero) {
+        if (_levelManager.MovementJoystick.Direction == Vector2.zero) {
             movementDirection = Vector3.zero;
         } else {
-            float movementAngle = Mathf.Atan2(_player.MovementJoystick.Horizontal, _player.MovementJoystick.Vertical);
+            float movementAngle = Mathf.Atan2(_levelManager.MovementJoystick.Horizontal, _levelManager.MovementJoystick.Vertical);
             movementAngle += _player.InitialRotationForward;
 
             movementDirection = new Vector3(Mathf.Sin(movementAngle), 0, Mathf.Cos(movementAngle));
@@ -72,10 +75,10 @@ public class PlayerMovement : NetworkBehaviour {
 
             if (_slapAngle.HasValue) { _slapAngle = null; }
 
-            angle = Mathf.Atan2(_player.MovementJoystick.Horizontal, _player.MovementJoystick.Vertical);
+            angle = Mathf.Atan2(_levelManager.MovementJoystick.Horizontal, _levelManager.MovementJoystick.Vertical);
         } else {
             if (!_slapAngle.HasValue) {
-                _slapAngle = Mathf.Atan2(_player.SlapJoystick.HorizontalBeforeRelease, _player.SlapJoystick.VerticalBeforeRelease);
+                _slapAngle = Mathf.Atan2(_levelManager.SlapJoystick.HorizontalBeforeRelease, _levelManager.SlapJoystick.VerticalBeforeRelease);
             }
 
             angle = (float)_slapAngle;

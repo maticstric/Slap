@@ -8,7 +8,6 @@ public class ScreenManager : MonoBehaviour {
     public List<GameObject> Screens; // List of all screens (screens[0] should be what appears first in the game)
     public GameObject ActiveScreen;
 
-
     private void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -17,7 +16,9 @@ public class ScreenManager : MonoBehaviour {
 
             return;
         }
+    }
 
+    private void Start() {
         SwitchTo(Screens[0].name);
     }
 
