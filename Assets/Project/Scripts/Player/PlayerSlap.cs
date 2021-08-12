@@ -22,6 +22,7 @@ public class PlayerSlap : NetworkBehaviour {
     [SerializeField] private float slapForce;
     [SerializeField] private int slapUINumOfRays;
     [SerializeField] private float slapTrailDuration;
+    [SerializeField] private float slapCooldown;
     [SerializeField] private float slapMovementCooldown;
 
     private Vector3 _slapDirection;
@@ -122,30 +123,41 @@ public class PlayerSlap : NetworkBehaviour {
         CmdSetIsSlapTrailEmitting(false);
     }
 
+    private IEnumerator DisableSlapJoystick() {
+        _levelManager.SlapJoystick.SetEnabled(false);
+
+        yield return new WaitForSeconds(slapCooldown);
+
+        _levelManager.SlapJoystick.SetEnabled(true);
+    }
+
     private void Slap() {
-        StartCoroutine("ActivateSlapTrail");
+        if (_slapDirection != Vector3.zero) {
+            StartCoroutine("ActivateSlapTrail");
+            StartCoroutine("DisableSlapJoystick");
 
-        _player.Animator.Play(_player.SlapAnimation.name);
+            _player.Animator.Play(_player.SlapAnimation.name);
 
-        List<RaycastHit> slapHits = GetSlapHits(playersLayerMask);
-        List<GameObject> playerHits = new List<GameObject>();
+            List<RaycastHit> slapHits = GetSlapHits(playersLayerMask);
+            List<GameObject> playerHits = new List<GameObject>();
 
-        foreach (RaycastHit hit in slapHits) {
-            if (hit.collider) {
-                playerHits.Add(hit.collider.gameObject);
+            foreach (RaycastHit hit in slapHits) {
+                if (hit.collider) {
+                    playerHits.Add(hit.collider.gameObject);
+                }
             }
-        }
 
-        playerHits = playerHits.Distinct().ToList();
+            playerHits = playerHits.Distinct().ToList();
 
-        foreach (GameObject playerHit in playerHits) {
-            // The collider is on the model, which is a child of the actual parent object with NetworkIdentity
-            GameObject playerObject = playerHit.transform.parent.gameObject;
+            foreach (GameObject playerHit in playerHits) {
+                // The collider is on the model, which is a child of the actual parent object with NetworkIdentity
+                GameObject playerObject = playerHit.transform.parent.gameObject;
 
-            Vector3 slapForceDirection = (playerObject.transform.position - transform.position).normalized;
-            slapForceDirection *= slapForce;
+                Vector3 slapForceDirection = (playerObject.transform.position - transform.position).normalized;
+                slapForceDirection *= slapForce;
 
-            CmdSlap(playerObject, slapForceDirection);
+                CmdSlap(playerObject, slapForceDirection);
+            }
         }
     }
 

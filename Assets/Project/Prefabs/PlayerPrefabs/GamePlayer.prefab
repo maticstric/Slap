@@ -255,6 +255,7 @@ MonoBehaviour:
   slapForce: 0.8
   slapUINumOfRays: 200
   slapTrailDuration: 0.25
+  slapCooldown: 1
   slapMovementCooldown: 0.8
   IsSlapTrailEmitting: 0
 --- !u!114 &3968944399077570026
