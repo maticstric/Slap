@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System.Collections;
 
 public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler {
     [Header("Objects")]
@@ -39,6 +40,36 @@ public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandle
         ResetJoystick();
     }
 
+    public void SetEnabled(bool enabled) {
+        _enabled = enabled;
+
+        Image backgroundImage = background.GetComponent<Image>();
+        Image handleImage = handle.GetComponent<Image>();
+
+        if (backgroundImage && handleImage) {
+            backgroundImage.color = enabled ? enabledColor : disabledColor;
+            handleImage.color = enabled ? enabledColor : disabledColor;
+        }
+    }
+
+    public IEnumerator BackgroundFill(float duration) {
+        Image backgroundImage = background.GetComponent<Image>();
+
+        backgroundImage.fillAmount = 0;
+
+        float time = 0;
+
+        while (time < duration) {
+            backgroundImage.fillAmount = time / duration;
+
+            time += Time.deltaTime;
+
+            yield return null;
+        }
+
+        backgroundImage.fillAmount = 1;
+    }
+
     public virtual void OnPointerDown(PointerEventData eventData) {
         _pointerCurrentPosition = eventData.position;
         _centerPosition = eventData.position;
@@ -61,18 +92,6 @@ public abstract class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandle
 
             _directionBeforeRelease = _direction;
             _direction = Vector2.zero;
-        }
-    }
-
-    public void SetEnabled(bool enabled) {
-        _enabled = enabled;
-
-        Image backgroundImage = background.GetComponent<Image>();
-        Image handleImage = handle.GetComponent<Image>();
-
-        if (backgroundImage && handleImage) {
-            backgroundImage.color = enabled ? enabledColor : disabledColor;
-            handleImage.color = enabled ? enabledColor : disabledColor;
         }
     }
 

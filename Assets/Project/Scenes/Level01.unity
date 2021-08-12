@@ -494,6 +494,12 @@ MonoBehaviour:
   canvas: {fileID: 626349717}
   size: 100
   rightSide: 1
+  enabledColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  disabledColor:
+    serializedVersion: 2
+    rgba: 1694498815
 --- !u!1 &626349714
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,13 +703,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 90576faaf52184f37a7056405e8d0cb3, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
   m_FillClockwise: 1
-  m_FillOrigin: 0
+  m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!222 &680115729
@@ -944,6 +950,12 @@ MonoBehaviour:
   canvas: {fileID: 626349717}
   size: 100
   rightSide: 0
+  enabledColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  disabledColor:
+    serializedVersion: 2
+    rgba: 1694498815
 --- !u!1 &1197249302
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,7 +1015,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 90576faaf52184f37a7056405e8d0cb3, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

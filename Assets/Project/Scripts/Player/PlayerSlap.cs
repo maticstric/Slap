@@ -124,6 +124,8 @@ public class PlayerSlap : NetworkBehaviour {
     }
 
     private IEnumerator DisableSlapJoystick() {
+        StartCoroutine(_levelManager.SlapJoystick.BackgroundFill(slapCooldown));
+
         _levelManager.SlapJoystick.SetEnabled(false);
 
         yield return new WaitForSeconds(slapCooldown);
@@ -135,7 +137,6 @@ public class PlayerSlap : NetworkBehaviour {
         if (_slapDirection != Vector3.zero) {
             StartCoroutine("ActivateSlapTrail");
             StartCoroutine("DisableSlapJoystick");
-
             _player.Animator.Play(_player.SlapAnimation.name);
 
             List<RaycastHit> slapHits = GetSlapHits(playersLayerMask);
