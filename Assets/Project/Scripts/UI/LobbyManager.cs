@@ -22,7 +22,7 @@ public class LobbyManager : MonoBehaviour {
 
     [Server]
     public void StartGame() {
-        MyNetworkManager.singleton.ServerChangeScene(GameManager.LEVEL01_SCENE_NAME);
+        MyNetworkManager.singleton.ServerChangeScene(GameManager.Instance.LEVEL_SCENE_NAMES[0]);
     }
 
     [Server]
