@@ -205,8 +205,6 @@ MonoBehaviour:
   SlapAnimation: {fileID: 7400000, guid: 3a5f72e482942484bab93fa6ab5130b1, type: 2}
   Rigidbody: {fileID: 0}
   InitialRotationForward: 0
-  CameraFollow: {fileID: 0}
-  CameraShake: {fileID: 0}
   IsAlive: 0
 --- !u!114 &1636486779569629240
 MonoBehaviour:
@@ -223,7 +221,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   standardMovementSpeed: 7
-  chargingMovementSpeed: 2
+  chargingMovementSpeed: 5
   MovementEnabled: 0
 --- !u!114 &8186651959047697935
 MonoBehaviour:
@@ -252,7 +250,7 @@ MonoBehaviour:
   maxSlapRadius: 7
   timeToMaxSlapRadius: 1.5
   slapAngleSize: 100
-  slapForce: 0.8
+  slapForce: 1.5
   slapUINumOfRays: 200
   slapTrailDuration: 0.25
   slapCooldown: 1
@@ -478,7 +476,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3931157162544826101}
-  - component: {fileID: 5530914405350257080}
+  - component: {fileID: 1566141047632251269}
   - component: {fileID: 6822815572031853719}
   m_Layer: 7
   m_Name: SphereCharacter
@@ -503,7 +501,7 @@ Transform:
   m_Father: {fileID: 1636486779569629241}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &5530914405350257080
+--- !u!136 &1566141047632251269
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -513,10 +511,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 1.0344863
-  m_Height: 2.7958522
+  m_Radius: 1.0255821
+  m_Height: 2.7311392
   m_Direction: 1
-  m_Center: {x: -0.028702736, y: 1.3160198, z: -0.08182788}
+  m_Center: {x: -0.021744013, y: 1.3231413, z: -0.107685804}
 --- !u!95 &6822815572031853719
 Animator:
   serializedVersion: 3

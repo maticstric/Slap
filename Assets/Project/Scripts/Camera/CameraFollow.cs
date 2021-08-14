@@ -2,6 +2,9 @@ using System.Collections;
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
+    [Header("Objects")]
+    [SerializeField] private Transform spectatePosition;
+
     [Header("Stats")]
     [SerializeField] private float offsetAbove;
     [SerializeField] private float offsetBehind;
@@ -12,11 +15,6 @@ public class CameraFollow : MonoBehaviour {
 
     private Transform _followTarget;
     private Vector3 _offset;
-    private Transform _spectatePosition;
-
-    private void Awake() {
-        _spectatePosition = GameObject.Find("SpectatePosition").transform;
-    }
 
     private void Update() {
         if (_followTarget) {
@@ -44,7 +42,7 @@ public class CameraFollow : MonoBehaviour {
     }
 
     public void MoveToSpectate() {
-        MoveTo(_spectatePosition.position, _spectatePosition.rotation, spectateMoveDuration);
+        MoveTo(spectatePosition.position, spectatePosition.rotation, spectateMoveDuration);
     }
 
     public void MoveTo(Vector3 position, Quaternion rotation, float duration) {

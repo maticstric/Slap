@@ -3,16 +3,21 @@ using Mirror;
 
 public class PlayerDeath : NetworkBehaviour {
     private Player _player;
+    private CameraFollow _cameraFollow;
 
     private void Awake() {
         _player = GetComponent<Player>();
+    }
+
+    private void Start() {
+        _cameraFollow = Camera.main.GetComponent<CameraFollow>();
     }
 
     private void OnTriggerExit(Collider collider) {
         if (collider.name == "DeathTrigger") {
             if (isLocalPlayer) {
                 _player.CmdSetIsAlive(false);
-                _player.CameraFollow.MoveToSpectate();
+                _cameraFollow.MoveToSpectate();
             }
         }
     }

@@ -7,7 +7,6 @@ public class MovingJoystick : Joystick {
 
         if (_enabled) {
             Vector2 direction = (_centerPosition - _pointerCurrentPosition) * -1;
-            print(direction);
             float maxMagnitude = size / 2 * canvas.scaleFactor;
 
             // Update postion of background

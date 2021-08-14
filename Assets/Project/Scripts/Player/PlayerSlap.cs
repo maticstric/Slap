@@ -33,6 +33,7 @@ public class PlayerSlap : NetworkBehaviour {
     private float _currentSlapRadius;
 
     private LevelManager _levelManager;
+    private CameraShake _cameraShake;
 
     [SyncVar(hook = "OnIsSlapTrailEmittingChanged")]
     public bool IsSlapTrailEmitting = false;
@@ -48,6 +49,7 @@ public class PlayerSlap : NetworkBehaviour {
 
     private void Start() {
         _levelManager = FindObjectOfType<LevelManager>();
+        _cameraShake = Camera.main.GetComponent<CameraShake>();
 
         if (isLocalPlayer) {
             _levelManager.SlapJoystick.onPointerUpEvent += Slap;
@@ -178,9 +180,9 @@ public class PlayerSlap : NetworkBehaviour {
     [TargetRpc]
     private void TargetSlap(NetworkConnection target, Vector3 slapForceDirection) {
         PlayerMovement playerMovement = target.identity.GetComponent<PlayerMovement>();
-        CameraShake cameraShake = target.identity.GetComponent<Player>().CameraShake;
+        Player player = target.identity.GetComponent<Player>();
 
-        StartCoroutine(cameraShake.Shake());
+        StartCoroutine(_cameraShake.Shake());
 
         StopCoroutine("ActivateMovementCooldown");
         StartCoroutine(ActivateMovementCooldown(playerMovement));

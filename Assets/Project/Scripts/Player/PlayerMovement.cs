@@ -11,6 +11,7 @@ public class PlayerMovement : NetworkBehaviour {
     private float _currentMovementSpeed;
     private Player _player;
     private LevelManager _levelManager;
+    private CameraFollow _cameraFollow;
 
     private float? _slapAngle;
 
@@ -21,9 +22,10 @@ public class PlayerMovement : NetworkBehaviour {
 
     private void Start() {
         _levelManager = FindObjectOfType<LevelManager>();
+        _cameraFollow = Camera.main.GetComponent<CameraFollow>();
 
         if (isLocalPlayer) {
-            _player.CameraFollow.Follow(transform);
+            _cameraFollow.Follow(transform);
         }
     }
 
@@ -86,7 +88,8 @@ public class PlayerMovement : NetworkBehaviour {
 
         if (angle != 0) {
             Vector3 initialVectorForward = new Vector3(Mathf.Sin(_player.InitialRotationForward), 0, Mathf.Cos(_player.InitialRotationForward));
-            transform.rotation = Quaternion.Euler(0, angle * Mathf.Rad2Deg, 0) * Quaternion.LookRotation(initialVectorForward, Vector3.up);
+
+            _player.Rigidbody.MoveRotation(Quaternion.Euler(0, angle * Mathf.Rad2Deg, 0) * Quaternion.LookRotation(initialVectorForward, Vector3.up));
         }
     }
 }
