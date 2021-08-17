@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class MovingJoystick : Joystick {
+
+
     public override void OnDrag(PointerEventData eventData) {
         _pointerCurrentPosition = eventData.position;
 
@@ -13,11 +15,16 @@ public class MovingJoystick : Joystick {
             if (direction.magnitude > maxMagnitude) {
                 background.position = _pointerCurrentPosition - direction.normalized * maxMagnitude;
                 _centerPosition = background.position;
+
+                _magnitude = 1;
             } else {
                 background.position = _centerPosition;
+
+                _magnitude = direction.magnitude / maxMagnitude;
             }
 
             handle.position = _pointerCurrentPosition;
+
             _direction = direction.normalized;
         }
     }
