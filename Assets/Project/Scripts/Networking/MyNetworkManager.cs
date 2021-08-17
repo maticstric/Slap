@@ -10,6 +10,7 @@ public class MyNetworkManager : NetworkManager {
     [SerializeField] private GameObject gamePlayerPrefab;
 
     [Header("Stats")]
+    [SerializeField] private bool searchForUPNP;
     [SerializeField] private int minPlayers;
     [SerializeField] private int maxPlayers;
 
@@ -19,13 +20,15 @@ public class MyNetworkManager : NetworkManager {
     private int _playersLoaded = 0;
 
     public override async void Start() {
-        NatDiscoverer discoverer = new NatDiscoverer();
-        CancellationTokenSource cts = new CancellationTokenSource(10000);
-        NatDevice device = await discoverer.DiscoverDeviceAsync(PortMapper.Upnp, cts);
+        if (searchForUPNP) {
+            NatDiscoverer discoverer = new NatDiscoverer();
+            CancellationTokenSource cts = new CancellationTokenSource(10000);
+            NatDevice device = await discoverer.DiscoverDeviceAsync(PortMapper.Upnp, cts);
 
-        await device.CreatePortMapAsync(new Mapping(Protocol.Udp, _UPnPPort, _UPnPPort, _UPnPDescription));
+            await device.CreatePortMapAsync(new Mapping(Protocol.Udp, _UPnPPort, _UPnPPort, _UPnPDescription));
 
-        base.Start();
+            base.Start();
+        }
     }
 
     public override void OnServerReady(NetworkConnection conn) {
