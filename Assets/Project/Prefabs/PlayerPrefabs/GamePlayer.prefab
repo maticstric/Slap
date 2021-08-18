@@ -157,6 +157,7 @@ GameObject:
   - component: {fileID: 1636486779569629240}
   - component: {fileID: 8186651959047697935}
   - component: {fileID: 3968944399077570026}
+  - component: {fileID: 7376936505258882397}
   - component: {fileID: 3519533057701508685}
   - component: {fileID: 1636486779569629243}
   - component: {fileID: -2144592014439056758}
@@ -252,7 +253,7 @@ MonoBehaviour:
   maxSlapRadius: 7
   timeToMaxSlapRadius: 1.5
   slapAngleSize: 100
-  slapForce: 3.8
+  slapForce: 6
   slapUINumOfRays: 200
   slapTrailDuration: 0.25
   slapCooldown: 1
@@ -272,6 +273,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &7376936505258882397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636486779569629245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8802fc907477f4876aba775c881b78c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravityStrenght: -80
 --- !u!54 &3519533057701508685
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -281,9 +295,9 @@ Rigidbody:
   m_GameObject: {fileID: 1636486779569629245}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 5
   m_AngularDrag: 5
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 80
@@ -510,7 +524,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4451128943638469711}
-  m_Material: {fileID: 13400000, guid: ce252e1abc7a84b398f3f455869e25b7, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 1.0255821
