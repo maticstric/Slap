@@ -6,6 +6,9 @@ public class PlayerMovement : NetworkBehaviour {
     [SerializeField] private float standardMovementSpeed;
     [SerializeField] private float chargingMovementSpeed;
 
+    [Header("Objects")]
+    [SerializeField] private DirectionIndicator directionIndicator;
+
     public bool MovementEnabled;
 
     private float _currentMovementSpeed;
@@ -25,6 +28,7 @@ public class PlayerMovement : NetworkBehaviour {
         _cameraFollow = Camera.main.GetComponent<CameraFollow>();
 
         if (isLocalPlayer) {
+            directionIndicator.Enabled = true;
             _cameraFollow.Follow(transform);
         }
     }
