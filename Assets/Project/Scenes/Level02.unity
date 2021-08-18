@@ -352,62 +352,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2824406131402352854, guid: 1d97d749c8d9e4a73a24dc53b42f4983, type: 3}
   m_PrefabInstance: {fileID: 428064814}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &428064818 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2824406132399760824, guid: 1d97d749c8d9e4a73a24dc53b42f4983, type: 3}
-  m_PrefabInstance: {fileID: 428064814}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &428064819
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 428064818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b67ab13a2f85b495d8cd966f2930915c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  smallPlatform: {fileID: 1520345630}
-  middlePlatform: {fileID: 1520345629}
-  smallPlatformMovementDuration: 6
-  middlePlatformMovementDuration: 7
-  smallPlatformFinalPosition: 1
-  middlePlatformFinalPosition: -3
-  animationCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &671299147
 GameObject:
   m_ObjectHideFlags: 0
@@ -728,18 +672,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4622112688850116939, guid: e38660ef10deb4454a87bba61334fc34, type: 3}
+      propertyPath: sceneId
+      value: 3195696229
+      objectReference: {fileID: 0}
+    - target: {fileID: 5096987996880079768, guid: e38660ef10deb4454a87bba61334fc34, type: 3}
+      propertyPath: sceneId
+      value: 3072500625
+      objectReference: {fileID: 0}
+    - target: {fileID: 6034957165246489832, guid: e38660ef10deb4454a87bba61334fc34, type: 3}
+      propertyPath: sceneId
+      value: 2914658558
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e38660ef10deb4454a87bba61334fc34, type: 3}
---- !u!4 &1520345629 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 870768058090558022, guid: e38660ef10deb4454a87bba61334fc34, type: 3}
-  m_PrefabInstance: {fileID: 1520345627}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1520345630 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2974367333376957352, guid: e38660ef10deb4454a87bba61334fc34, type: 3}
-  m_PrefabInstance: {fileID: 1520345627}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1831180118
 PrefabInstance:
   m_ObjectHideFlags: 0
