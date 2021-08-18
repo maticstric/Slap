@@ -182,6 +182,8 @@ public class PlayerSlap : NetworkBehaviour {
         PlayerMovement playerMovement = target.identity.GetComponent<PlayerMovement>();
         Player player = target.identity.GetComponent<Player>();
 
+        player.Rigidbody.freezeRotation = false;
+
         StartCoroutine(_cameraShake.Shake());
 
         StopCoroutine("ActivateMovementCooldown");

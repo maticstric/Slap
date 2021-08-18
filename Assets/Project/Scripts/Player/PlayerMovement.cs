@@ -60,6 +60,10 @@ public class PlayerMovement : NetworkBehaviour {
             float movementAngle = Mathf.Atan2(_levelManager.MovementJoystick.Horizontal, _levelManager.MovementJoystick.Vertical);
             movementAngle += _player.InitialRotationForward;
 
+            if (!_player.Rigidbody.freezeRotation) {
+                _player.Rigidbody.freezeRotation = true;
+            }
+
             movementDirection = new Vector3(Mathf.Sin(movementAngle), 0, Mathf.Cos(movementAngle));
 
             _player.Rigidbody.MovePosition(_player.Model.transform.position + movementDirection * _currentMovementSpeed * Time.fixedDeltaTime);
