@@ -10,7 +10,9 @@ public class GameManager : MonoBehaviour {
         "Level01", "Level02", "Level03", "Level04", "Level05"
     };
 
-    private string _lastLevelSelected = "";
+    public string InitialLevel;
+
+    private string _lastLevelSelected;
 
     private void Awake() {
         if (Instance == null) {
@@ -20,6 +22,9 @@ public class GameManager : MonoBehaviour {
 
             return;
         }
+
+        InitialLevel = LEVEL_SCENE_NAMES[4];
+        _lastLevelSelected = InitialLevel;
 
         DontDestroyOnLoad(gameObject);
     }
