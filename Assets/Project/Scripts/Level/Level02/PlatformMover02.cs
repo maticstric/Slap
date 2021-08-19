@@ -20,9 +20,12 @@ public class PlatformMover02 : NetworkBehaviour {
     }
 
     private void FixedUpdate() {
-        MovePlatform();
+        if (isServer) {
+            MovePlatform();
+        }
     }
 
+    [Server]
     private void MovePlatform() {
         float percent = (_time % movementDuration) / movementDuration;
         float position = Mathf.Lerp(_initialPosition, finalPosition, animationCurve.Evaluate(percent));
