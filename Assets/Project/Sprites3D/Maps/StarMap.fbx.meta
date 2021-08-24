@@ -1,41 +1,9 @@
 fileFormatVersion: 2
-guid: 9b2992daff72541da8fe091739296ace
+guid: 6c8e05db6d7ab43dd9714cb0a7541b75
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable:
-  - first:
-      74: 1589671950991797658
-    second: PyramidRig|charging
-  - first:
-      74: -5544453831413955897
-    second: PyramidRig|Idle
-  - first:
-      74: 824361446298008998
-    second: PyramidRig|slap
-  - first:
-      74: -548253747562381291
-    second: PyramidRig|walk
-  - first:
-      74: 3375830787721576344
-    second: SphereGuyRigged|Charging
-  - first:
-      74: -3211864449895183937
-    second: SphereGuyRigged|Idle
-  - first:
-      74: -8024918457351680836
-    second: SphereGuyRigged|Run
-  - first:
-      74: -4286768696934836361
-    second: SphereGuyRigged|Slap
-  - first:
-      74: -326790507251505678
-    second: SphereGuyRigged|WalkCharge
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.001
-    second: {fileID: 2100000, guid: de4cd9c6764ca404ba0bf6f5c3e81898, type: 2}
+  internalIDToNameTable: []
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
