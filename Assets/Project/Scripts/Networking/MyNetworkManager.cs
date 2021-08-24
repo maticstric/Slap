@@ -5,9 +5,13 @@ using Open.Nat;
 using System.Threading;
 
 public class MyNetworkManager : NetworkManager {
+    public static MyNetworkManager Instance;
+
     [Header("Objects")]
     [SerializeField] private GameObject lobbyPlayerPrefab;
-    [SerializeField] private GameObject gamePlayerPrefab;
+    public GameObject GamePlayerPrefab;
+
+    public string asdf;
 
     [Header("Stats")]
     [SerializeField] private bool searchForUPNP;
@@ -19,6 +23,20 @@ public class MyNetworkManager : NetworkManager {
 
     private int _playersLoaded = 0;
 
+    public override void Awake() {
+        if (Instance == null) {
+            Instance = this;
+        } else {
+            Destroy(gameObject);
+
+            return;
+        }
+
+        DontDestroyOnLoad(gameObject);
+
+        base.Awake();
+    }
+
     public override async void Start() {
         if (searchForUPNP) {
             NatDiscoverer discoverer = new NatDiscoverer();
@@ -26,9 +44,9 @@ public class MyNetworkManager : NetworkManager {
             NatDevice device = await discoverer.DiscoverDeviceAsync(PortMapper.Upnp, cts);
 
             await device.CreatePortMapAsync(new Mapping(Protocol.Udp, _UPnPPort, _UPnPPort, _UPnPDescription));
-
-            base.Start();
         }
+
+        base.Start();
     }
 
     public override void OnServerReady(NetworkConnection conn) {
@@ -41,7 +59,7 @@ public class MyNetworkManager : NetworkManager {
         } else if (SceneManager.GetActiveScene().name.Substring(0, 5) == "Level") { // If it's a level
             Transform startPos = GetStartPosition();
 
-            GameObject gamePlayerObject = Instantiate(gamePlayerPrefab, startPos.position, startPos.rotation);
+            GameObject gamePlayerObject = Instantiate(GamePlayerPrefab, startPos.position, startPos.rotation);
 
             NetworkServer.AddPlayerForConnection(conn, gamePlayerObject);
 
