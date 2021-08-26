@@ -51,8 +51,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  movementDuration: 8
-  finalPosition: -3
+  movementDuration: 6
+  finalPosition: 0
   animationCurve:
     serializedVersion: 2
     m_Curve:

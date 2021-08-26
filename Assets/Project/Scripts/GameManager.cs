@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
             return;
         }
 
-        InitialLevel = LEVEL_SCENE_NAMES[0];
+        InitialLevel = LEVEL_SCENE_NAMES[2];
         _lastLevelSelected = InitialLevel;
 
         DontDestroyOnLoad(gameObject);
