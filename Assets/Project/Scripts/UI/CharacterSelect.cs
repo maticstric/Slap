@@ -10,6 +10,8 @@ public class CharacterSelect : MonoBehaviour {
     };
 
     [Header("Objects")]
+    [SerializeField] private ColorSelect colorSelect;
+    [Space]
     [SerializeField] private GameObject sphereCharacter;
     [SerializeField] private GameObject donutCharacter;
     [SerializeField] private GameObject cubeCharacter;
@@ -20,7 +22,12 @@ public class CharacterSelect : MonoBehaviour {
     [SerializeField] private Button cubeButton;
     [SerializeField] private Button pyramidButton;
 
+    public Characters CurrentCharacter;
+
     private void Awake() {
+        CurrentCharacter = Characters.Sphere;
+        MyNetworkManager.Instance.GamePlayerPrefab = sphereCharacter;
+
         sphereButton.onClick.AddListener(() => SelectCharacter(Characters.Sphere));
         donutButton.onClick.AddListener(() => SelectCharacter(Characters.Donut));
         cubeButton.onClick.AddListener(() => SelectCharacter(Characters.Cube));
@@ -30,12 +37,24 @@ public class CharacterSelect : MonoBehaviour {
     public void SelectCharacter(Characters character) {
         if (character == Characters.Sphere) {
             MyNetworkManager.Instance.GamePlayerPrefab = sphereCharacter;
+            CurrentCharacter = Characters.Sphere;
+
+            colorSelect.SelectColor(colorSelect.CurrentColor); // Have to chose different texture, same color, for new character
         } else if (character == Characters.Donut) {
             MyNetworkManager.Instance.GamePlayerPrefab = donutCharacter;
+            CurrentCharacter = Characters.Donut;
+
+            colorSelect.SelectColor(colorSelect.CurrentColor);
         } else if (character == Characters.Cube) {
             MyNetworkManager.Instance.GamePlayerPrefab = cubeCharacter;
+            CurrentCharacter = Characters.Cube;
+
+            colorSelect.SelectColor(colorSelect.CurrentColor);
         } else if (character == Characters.Pyramid) {
             MyNetworkManager.Instance.GamePlayerPrefab = pyramidCharacter;
+            CurrentCharacter = Characters.Pyramid;
+
+            colorSelect.SelectColor(colorSelect.CurrentColor);
         }
     }
 }

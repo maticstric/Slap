@@ -10,8 +10,7 @@ public class MyNetworkManager : NetworkManager {
     [Header("Objects")]
     [SerializeField] private GameObject lobbyPlayerPrefab;
     public GameObject GamePlayerPrefab;
-
-    public string asdf;
+    public Texture GamePlayerTexture;
 
     [Header("Stats")]
     [SerializeField] private bool searchForUPNP;
@@ -60,6 +59,7 @@ public class MyNetworkManager : NetworkManager {
             Transform startPos = GetStartPosition();
 
             GameObject gamePlayerObject = Instantiate(GamePlayerPrefab, startPos.position, startPos.rotation);
+            gamePlayerObject.GetComponentInChildren<SkinnedMeshRenderer>().material.SetTexture("_MainTex", GamePlayerTexture);
 
             NetworkServer.AddPlayerForConnection(conn, gamePlayerObject);
 
