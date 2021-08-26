@@ -136,31 +136,33 @@ public class PlayerSlap : NetworkBehaviour {
     }
 
     private void Slap() {
-        if (_slapDirection != Vector3.zero) {
-            StartCoroutine("ActivateSlapTrail");
-            StartCoroutine("DisableSlapJoystick");
-            _player.Animator.Play(_player.SlapAnimation.name);
+        if (_slapDirection == Vector3.zero) {
+            _slapDirection = _player.transform.forward;
+        }
+        
+        StartCoroutine("ActivateSlapTrail");
+        StartCoroutine("DisableSlapJoystick");
+        _player.Animator.Play(_player.SlapAnimation.name);
 
-            List<RaycastHit> slapHits = GetSlapHits(playersLayerMask);
-            List<GameObject> playerHits = new List<GameObject>();
+        List<RaycastHit> slapHits = GetSlapHits(playersLayerMask);
+        List<GameObject> playerHits = new List<GameObject>();
 
-            foreach (RaycastHit hit in slapHits) {
-                if (hit.collider) {
-                    playerHits.Add(hit.collider.gameObject);
-                }
+        foreach (RaycastHit hit in slapHits) {
+            if (hit.collider) {
+                playerHits.Add(hit.collider.gameObject);
             }
+        }
 
-            playerHits = playerHits.Distinct().ToList();
+        playerHits = playerHits.Distinct().ToList();
 
-            foreach (GameObject playerHit in playerHits) {
-                // The collider is on the model, which is a child of the actual parent object with NetworkIdentity
-                GameObject playerObject = playerHit.transform.parent.gameObject;
+        foreach (GameObject playerHit in playerHits) {
+            // The collider is on the model, which is a child of the actual parent object with NetworkIdentity
+            GameObject playerObject = playerHit.transform.parent.gameObject;
 
-                Vector3 slapForceDirection = (playerObject.transform.position - transform.position).normalized;
-                slapForceDirection *= slapForce;
+            Vector3 slapForceDirection = (playerObject.transform.position - transform.position).normalized;
+            slapForceDirection *= slapForce;
 
-                CmdSlap(playerObject, slapForceDirection);
-            }
+            CmdSlap(playerObject, slapForceDirection);
         }
     }
 
