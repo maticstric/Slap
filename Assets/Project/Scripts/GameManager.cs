@@ -4,11 +4,9 @@ public class GameManager : MonoBehaviour {
     public static GameManager Instance;
     public string Username;
 
-    public string LOBBY_SCENE_NAME = "Lobby";
+    public string LOBBY_SCENE_NAME;
 
-    public string[] LEVEL_SCENE_NAMES = new string[] {
-        "Level01", "Level02", "Level03", "Level04", "Level05"
-    };
+    public string[] LEVEL_SCENE_NAMES;
 
     public string InitialLevel;
 
@@ -23,7 +21,7 @@ public class GameManager : MonoBehaviour {
             return;
         }
 
-        InitialLevel = LEVEL_SCENE_NAMES[2];
+        InitialLevel = LEVEL_SCENE_NAMES[6];
         _lastLevelSelected = InitialLevel;
 
         DontDestroyOnLoad(gameObject);

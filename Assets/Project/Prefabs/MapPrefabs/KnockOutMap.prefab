@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6438722078511764208}
   - component: {fileID: 7995353925100739925}
   - component: {fileID: 5265204125279676831}
+  - component: {fileID: 7054021749880745666}
   m_Layer: 0
   m_Name: KnockOutMap
   m_TagString: Untagged
@@ -26,8 +27,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5913577266534205514}
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 14.234388, y: 64.039276, z: -101.35576}
-  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 200, y: 200, z: 200}
   m_Children:
   - {fileID: 5496096674111328928}
   - {fileID: 2455239263247170186}
@@ -85,6 +86,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7054021749880745666
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5913577266534205514}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5495902117074765545, guid: 9082f2e27d9fe45c2bb3acc42c5d131b, type: 3}
 --- !u!1001 &7894182398829044
 PrefabInstance:
   m_ObjectHideFlags: 0

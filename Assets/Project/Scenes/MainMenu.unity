@@ -329,6 +329,8 @@ MonoBehaviour:
   - Level03
   - Level04
   - Level05
+  - Level06
+  - Level07
   InitialLevel: 
 --- !u!1 &300586542
 GameObject:
@@ -1487,7 +1489,7 @@ MonoBehaviour:
   lobbyPlayerPrefab: {fileID: 8182542796690706950, guid: b3b81bed968294a39a142f1c813ab61d, type: 3}
   GamePlayerPrefab: {fileID: 1636486779569629245, guid: 795ebe88a9c7d4aff9347d1f4e387fbf, type: 3}
   GamePlayerTexture: {fileID: 0}
-  searchForUPNP: 0
+  searchForUPNP: 1
   minPlayers: 2
   maxPlayers: 10
 --- !u!1 &1130331182
