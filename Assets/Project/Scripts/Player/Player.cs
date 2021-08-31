@@ -14,6 +14,10 @@ public class Player : NetworkBehaviour {
 
     [SyncVar(hook = nameof(OnIsAliveChanged))]
     public bool IsAlive;
+    [SyncVar]
+    public CharacterSelect.Characters Character = CharacterSelect.Characters.Sphere;
+    [SyncVar(hook = nameof(OnColorChanged))]
+    public int Color = (int)CharacterSelect.Colors.Red; // Bug in mirror, so sadly this has to be an int instead of CharacterSelect.Colors
 
     private PlayerDeath _playerDeath;
 
@@ -43,5 +47,9 @@ public class Player : NetworkBehaviour {
                 _playerDeath.SwitchLevel();
             }
         }
+    }
+
+    private void OnColorChanged(int oldValue, int newValue) {
+        GetComponentInChildren<SkinnedMeshRenderer>().material.SetTexture("_MainTex", CharacterSelect.Instance.GetTexture((CharacterSelect.Colors)newValue, Character));
     }
 }

@@ -274,6 +274,8 @@ MonoBehaviour:
   Rigidbody: {fileID: 0}
   InitialRotationForward: 0
   IsAlive: 0
+  Character: 0
+  Color: 0
 --- !u!114 &1636486779569629240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1005,7 +1007,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1762663805939861060, guid: 33c2ef104bbad4bcea899bf3aef4f053, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1762663805939861060, guid: 33c2ef104bbad4bcea899bf3aef4f053, type: 3}
       propertyPath: m_LocalPosition.z

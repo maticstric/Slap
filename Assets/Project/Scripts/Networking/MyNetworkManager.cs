@@ -3,6 +3,7 @@ using Mirror;
 using UnityEngine.SceneManagement;
 using Open.Nat;
 using System.Threading;
+using System.Collections.Generic;
 
 public class MyNetworkManager : NetworkManager {
     public static MyNetworkManager Instance;
@@ -22,6 +23,9 @@ public class MyNetworkManager : NetworkManager {
 
     private int _playersLoaded = 0;
 
+    public Dictionary<int, CharacterSelect.Characters> Characters;
+    public Dictionary<int, CharacterSelect.Colors> Colors;
+
     public override void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -32,6 +36,9 @@ public class MyNetworkManager : NetworkManager {
         }
 
         DontDestroyOnLoad(gameObject);
+
+        Characters = new Dictionary<int, CharacterSelect.Characters>();
+        Colors = new Dictionary<int, CharacterSelect.Colors>();
 
         base.Awake();
     }
@@ -58,8 +65,11 @@ public class MyNetworkManager : NetworkManager {
         } else if (SceneManager.GetActiveScene().name.Substring(0, 5) == "Level") { // If it's a level
             Transform startPos = GetStartPosition();
 
-            GameObject gamePlayerObject = Instantiate(GamePlayerPrefab, startPos.position, startPos.rotation);
-            gamePlayerObject.GetComponentInChildren<SkinnedMeshRenderer>().material.SetTexture("_MainTex", GamePlayerTexture);
+            GameObject gamePlayerPrefab = CharacterSelect.Instance.GetCharacterPrefab(Characters[conn.connectionId]);
+            GameObject gamePlayerObject = Instantiate(gamePlayerPrefab, startPos.position, startPos.rotation);
+
+            gamePlayerObject.GetComponent<Player>().Character = Characters[conn.connectionId];
+            gamePlayerObject.GetComponent<Player>().Color = (int)Colors[conn.connectionId];
 
             NetworkServer.AddPlayerForConnection(conn, gamePlayerObject);
 
@@ -73,5 +83,13 @@ public class MyNetworkManager : NetworkManager {
                 levelManager.AllPlayersLoaded();
             }
         }
+    }
+
+    public void SetCharacter(CharacterSelect.Characters character, NetworkConnectionToClient sender) {
+        Characters[sender.connectionId] = character;
+    }
+
+    public void SetColor(CharacterSelect.Colors color, NetworkConnectionToClient sender) {
+        Colors[sender.connectionId] = color;
     }
 }

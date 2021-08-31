@@ -1,7 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
 
-public class CharacterSelect : MonoBehaviour {
+public class CharacterSelect : NetworkBehaviour {
+    public static CharacterSelect Instance; // Need it to access GetTexture and GetCharacterPrefab globaly
+                                            // Better than moving those to some random file
     public enum Characters {
         Sphere,
         Donut,
@@ -9,9 +12,14 @@ public class CharacterSelect : MonoBehaviour {
         Pyramid
     };
 
+    public enum Colors {
+        Blue,
+        Green,
+        Red,
+        Yellow
+    };
+
     [Header("Objects")]
-    [SerializeField] private ColorSelect colorSelect;
-    [Space]
     [SerializeField] private GameObject sphereCharacter;
     [SerializeField] private GameObject donutCharacter;
     [SerializeField] private GameObject cubeCharacter;
@@ -21,40 +29,87 @@ public class CharacterSelect : MonoBehaviour {
     [SerializeField] private Button donutButton;
     [SerializeField] private Button cubeButton;
     [SerializeField] private Button pyramidButton;
+    [Space]
+    [SerializeField] private Texture[] sphereTextures; // Make sure these arrays are orderer correctly
+    [SerializeField] private Texture[] donutTextures;  // Blue, Green, Red, Yellow
+    [SerializeField] private Texture[] cubeTextures;
+    [SerializeField] private Texture[] pyramidTextures;
+    [Space]
+    [SerializeField] private Button blueButton;
+    [SerializeField] private Button greenButton;
+    [SerializeField] private Button redButton;
+    [SerializeField] private Button yellowButton;
+    [Space]
 
-    public Characters CurrentCharacter;
+    public Characters CurrentCharacter = Characters.Sphere;
+    public Colors CurrentColor = Colors.Red;
 
     private void Awake() {
-        CurrentCharacter = Characters.Sphere;
-        MyNetworkManager.Instance.GamePlayerPrefab = sphereCharacter;
+        if (Instance == null) {
+            Instance = this;
+        } else {
+            Destroy(gameObject);
 
-        sphereButton.onClick.AddListener(() => SelectCharacter(Characters.Sphere));
-        donutButton.onClick.AddListener(() => SelectCharacter(Characters.Donut));
-        cubeButton.onClick.AddListener(() => SelectCharacter(Characters.Cube));
-        pyramidButton.onClick.AddListener(() => SelectCharacter(Characters.Pyramid));
+            return;
+        }
     }
 
-    public void SelectCharacter(Characters character) {
+    public override void OnStartClient() {
+        CmdSelectCharacter(Characters.Sphere);
+        CmdSelectColor(Colors.Red);
+
+        sphereButton.onClick.AddListener(() => CmdSelectCharacter(Characters.Sphere));
+        donutButton.onClick.AddListener(() => CmdSelectCharacter(Characters.Donut));
+        cubeButton.onClick.AddListener(() => CmdSelectCharacter(Characters.Cube));
+        pyramidButton.onClick.AddListener(() => CmdSelectCharacter(Characters.Pyramid));
+
+        blueButton.onClick.AddListener(() => CmdSelectColor(Colors.Blue));
+        greenButton.onClick.AddListener(() => CmdSelectColor(Colors.Green));
+        redButton.onClick.AddListener(() => CmdSelectColor(Colors.Red));
+        yellowButton.onClick.AddListener(() => CmdSelectColor(Colors.Yellow));
+
+        base.OnStartClient();
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdSelectCharacter(Characters character, NetworkConnectionToClient sender = null) {
+        CurrentCharacter = character;
+
+        MyNetworkManager.Instance.SetCharacter(character, sender);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdSelectColor(Colors color, NetworkConnectionToClient sender = null) {
+        CurrentColor = color;
+
+        MyNetworkManager.Instance.SetColor(color, sender);
+    }
+
+    public Texture GetTexture(Colors color, Characters character) {
         if (character == Characters.Sphere) {
-            MyNetworkManager.Instance.GamePlayerPrefab = sphereCharacter;
-            CurrentCharacter = Characters.Sphere;
-
-            colorSelect.SelectColor(colorSelect.CurrentColor); // Have to chose different texture, same color, for new character
+            return sphereTextures[(int)color];
         } else if (character == Characters.Donut) {
-            MyNetworkManager.Instance.GamePlayerPrefab = donutCharacter;
-            CurrentCharacter = Characters.Donut;
-
-            colorSelect.SelectColor(colorSelect.CurrentColor);
+            return donutTextures[(int)color];
         } else if (character == Characters.Cube) {
-            MyNetworkManager.Instance.GamePlayerPrefab = cubeCharacter;
-            CurrentCharacter = Characters.Cube;
-
-            colorSelect.SelectColor(colorSelect.CurrentColor);
+            return cubeTextures[(int)color];
         } else if (character == Characters.Pyramid) {
-            MyNetworkManager.Instance.GamePlayerPrefab = pyramidCharacter;
-            CurrentCharacter = Characters.Pyramid;
-
-            colorSelect.SelectColor(colorSelect.CurrentColor);
+            return pyramidTextures[(int)color];
         }
+
+        return null;
+    }
+
+    public GameObject GetCharacterPrefab(Characters character) {
+        if (character == Characters.Sphere) {
+            return sphereCharacter;
+        } else if (character == Characters.Donut) {
+            return donutCharacter;
+        } else if (character == Characters.Cube) {
+            return cubeCharacter;
+        } else if (character == Characters.Pyramid) {
+            return pyramidCharacter;
+        }
+
+        return null;
     }
 }
