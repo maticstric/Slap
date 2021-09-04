@@ -167,7 +167,7 @@ public class PlayerSlap : NetworkBehaviour {
     }
 
     [Command]
-    private void CmdSlap(GameObject target, Vector3 slapForceDirection) {
+    public void CmdSlap(GameObject target, Vector3 slapForceDirection) {
         NetworkIdentity targetIdentity = target.GetComponent<NetworkIdentity>();
 
         TargetSlap(targetIdentity.connectionToClient, slapForceDirection);
@@ -192,7 +192,7 @@ public class PlayerSlap : NetworkBehaviour {
         StartCoroutine(ActivateMovementCooldown(playerMovement));
 
         Rigidbody targetRigidbody = target.identity.GetComponent<Rigidbody>();
-        targetRigidbody.AddForce(slapForceDirection * 10, ForceMode.Impulse);
+        targetRigidbody.AddForce(slapForceDirection, ForceMode.Impulse);
     }
 
     private IEnumerator ActivateMovementCooldown(PlayerMovement playerMovement) {

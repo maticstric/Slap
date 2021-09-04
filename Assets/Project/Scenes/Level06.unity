@@ -750,6 +750,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1416004765}
     m_Modifications:
+    - target: {fileID: 880419247100752507, guid: 0b53ca2bde2e548d58e061309d49e3da, type: 3}
+      propertyPath: sceneId
+      value: 41418706
+      objectReference: {fileID: 0}
     - target: {fileID: 3773413293255495695, guid: 0b53ca2bde2e548d58e061309d49e3da, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -797,6 +801,10 @@ PrefabInstance:
     - target: {fileID: 4545833833094400693, guid: 0b53ca2bde2e548d58e061309d49e3da, type: 3}
       propertyPath: m_Name
       value: 1v1MeMap
+      objectReference: {fileID: 0}
+    - target: {fileID: 6295846522900397264, guid: 0b53ca2bde2e548d58e061309d49e3da, type: 3}
+      propertyPath: sceneId
+      value: 3162627611
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b53ca2bde2e548d58e061309d49e3da, type: 3}

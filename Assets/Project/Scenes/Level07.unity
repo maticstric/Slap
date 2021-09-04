@@ -410,9 +410,37 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1416004765}
     m_Modifications:
+    - target: {fileID: 1311492656053644910, guid: 429587f95583446e88031c632a9d5ccd, type: 3}
+      propertyPath: sceneId
+      value: 171450936
+      objectReference: {fileID: 0}
+    - target: {fileID: 1537339776952581960, guid: 429587f95583446e88031c632a9d5ccd, type: 3}
+      propertyPath: sceneId
+      value: 2585594869
+      objectReference: {fileID: 0}
+    - target: {fileID: 1965980688724524206, guid: 429587f95583446e88031c632a9d5ccd, type: 3}
+      propertyPath: sceneId
+      value: 3497457714
+      objectReference: {fileID: 0}
+    - target: {fileID: 3482113730127386910, guid: 429587f95583446e88031c632a9d5ccd, type: 3}
+      propertyPath: sceneId
+      value: 412482306
+      objectReference: {fileID: 0}
+    - target: {fileID: 4118886450444848094, guid: 429587f95583446e88031c632a9d5ccd, type: 3}
+      propertyPath: sceneId
+      value: 665880018
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490045509131901688, guid: 429587f95583446e88031c632a9d5ccd, type: 3}
+      propertyPath: sceneId
+      value: 3652364074
+      objectReference: {fileID: 0}
     - target: {fileID: 5913577266534205514, guid: 429587f95583446e88031c632a9d5ccd, type: 3}
       propertyPath: m_Name
       value: KnockOutMap
+      objectReference: {fileID: 0}
+    - target: {fileID: 6304464093076235252, guid: 429587f95583446e88031c632a9d5ccd, type: 3}
+      propertyPath: sceneId
+      value: 3973107025
       objectReference: {fileID: 0}
     - target: {fileID: 6438722078511764208, guid: 429587f95583446e88031c632a9d5ccd, type: 3}
       propertyPath: m_RootOrder
@@ -457,6 +485,10 @@ PrefabInstance:
     - target: {fileID: 6438722078511764208, guid: 429587f95583446e88031c632a9d5ccd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8964298821608703556, guid: 429587f95583446e88031c632a9d5ccd, type: 3}
+      propertyPath: sceneId
+      value: 2951594938
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 429587f95583446e88031c632a9d5ccd, type: 3}

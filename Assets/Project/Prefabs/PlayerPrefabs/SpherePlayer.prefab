@@ -208,6 +208,8 @@ MonoBehaviour:
   Rigidbody: {fileID: 0}
   InitialRotationForward: 0
   IsAlive: 0
+  Character: 0
+  Color: 2
 --- !u!114 &1636486779569629240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,7 +255,7 @@ MonoBehaviour:
   maxSlapRadius: 7
   timeToMaxSlapRadius: 1.5
   slapAngleSize: 100
-  slapForce: 6
+  slapForce: 60
   slapUINumOfRays: 200
   slapTrailDuration: 0.25
   slapCooldown: 1

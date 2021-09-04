@@ -321,7 +321,7 @@ MonoBehaviour:
   maxSlapRadius: 7
   timeToMaxSlapRadius: 1.5
   slapAngleSize: 100
-  slapForce: 6
+  slapForce: 60
   slapUINumOfRays: 200
   slapTrailDuration: 0.25
   slapCooldown: 1
